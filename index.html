@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>ローカルプレビュー環境</title>
+
+        <script type="importmap">
+            {
+                "imports": {
+                    "lit": "https://esm.sh/lit@3.1.2",
+                    "lit/directives/unsafe-html.js": "https://esm.sh/lit@3.1.2/directives/unsafe-html.js",
+
+                    "front-matter": "https://esm.sh/gray-matter@4.0.3?target=es2022",
+                    "marked": "https://esm.sh/marked@12.0.0"
+                }
+            }
+        </script>
+
+        <script type="module" src="./js/preview.js"></script>
+    </head>
+    <body></body>
+</html>

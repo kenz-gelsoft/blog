@@ -1,0 +1,2 @@
+posts/hello.md
+posts/tech/rust.md
