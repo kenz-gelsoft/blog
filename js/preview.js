@@ -1,7 +1,7 @@
 import parseFrontmatter from "front-matter";
 import { render } from "lit";
-import indexAdapter from "../_layout/indexAdapter.js";
-import mdPost from "../_layout/mdPost.js";
+import indexAdapter from "../layout/indexAdapter.js";
+import mdPost from "../layout/mdPost.js";
 import { resolveChain } from "./engine.js";
 
 async function renderPage() {
