@@ -4,7 +4,7 @@ import { layout } from "../js/engine.js";
 // 第一引数にオブジェクトリテラルを配置して、11tyのFrontmatterを再現
 export default layout(
   {
-    layout: "baseLayout",
+    layout: "base",
     author: "匿名ゲスト",
     sidebar: true, // 将来的な拡張の例
   },
