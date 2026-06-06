@@ -8,9 +8,11 @@ export default function indexAdapter(postsMeta) {
     layout: "indexLayout",
   };
   return (data) => {
-    const merged = Object.assign(Object.create(defaults), data);
+    const merged = Object.assign(Object.create(data), defaults);
+    console.log(defaults.title, defaults.layout, "+", data.title, data.layout, "=>", merged.title, merged.layout);
     // 配列そのものをコンテンツとする
     merged.content = postsMeta;
+    merged.layout = defaults.layout;
     return merged;
   };
 }

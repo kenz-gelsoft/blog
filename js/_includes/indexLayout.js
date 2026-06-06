@@ -18,7 +18,7 @@ export default layout(
                 <time>${post.date}</time>
                 <a href="/index.html?page=${post.slug || ""}">${post.title}</a>
                 <p>${post.description || ""}</p>
-              </li>
+             </li>
             `,
           )}
         </ul>

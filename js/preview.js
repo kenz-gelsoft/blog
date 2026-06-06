@@ -34,7 +34,6 @@ async function startPreview() {
     );
     const indexFunc = indexAdapter(postsMeta);
     const finalHtml = await resolveChain(indexFunc({}));
-    console.log(JSON.stringify(finalHtml));
     render(finalHtml, document.body);
   }
 }

@@ -4,6 +4,7 @@ import { layout } from "../engine.js";
 export default layout(
   {
     // ルートレイアウトでは layout: を指定しない
+    layout: null,
   },
   (data) => html`
     <!DOCTYPE html>
