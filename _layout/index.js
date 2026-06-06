@@ -16,7 +16,7 @@ export default layout(
             (post) => html`
               <li>
                 <time>${post.date}</time>
-                <a href="/?page=${post.slug || ""}">${post.title}</a>
+                <a href="/${post.slug || ""}">${post.title}</a>
                 <p>${post.description || ""}</p>
               </li>
             `,
