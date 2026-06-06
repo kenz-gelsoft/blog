@@ -1,5 +1,5 @@
 import { html } from "lit";
-import { layout } from "../engine.js";
+import { layout } from "../js/engine.js";
 
 // 第一引数にオブジェクトリテラルを配置して、11tyのFrontmatterを再現
 export default layout(
