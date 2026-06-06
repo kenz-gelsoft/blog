@@ -5,11 +5,11 @@ export default layout(
   {
     layout: "base", // 最終的に最外殻の base layout に包む
   },
-  (data) => {
-    const posts = data.content; // ここに配列が入っている
+  (page) => {
+    const posts = page.content; // ここに配列が入っている
     return html`
       <section class="archive">
-        <h1>${data.title}</h1>
+        <h1>${page.title}</h1>
 
         <ul class="post-list">
           ${posts.map(

@@ -8,13 +8,15 @@ export default layout(
     author: "匿名ゲスト",
     sidebar: true, // 将来的な拡張の例
   },
-  (data) => html`
-    <article class="${data.sidebar ? "has-sidebar" : ""}">
-      <header>
-        <h1>${data.title}</h1>
-        <p>著者: ${data.author}</p>
-      </header>
-      <div class="body">${data.content}</div>
-    </article>
-  `,
+  (page) => {
+    return html`
+      <article class="${page.sidebar ? "has-sidebar" : ""}">
+        <header>
+          <h1>${page.title}</h1>
+          <p>著者: ${page.author}</p>
+        </header>
+        <div class="body">${page.content}</div>
+      </article>
+    `;
+  },
 );

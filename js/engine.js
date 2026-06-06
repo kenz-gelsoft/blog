@@ -1,18 +1,8 @@
-export function layout(meta, layoutFunc) {
-  return (data) => {
-    const merged = Object.assign(Object.create(meta), data);
-    console.log(
-      meta.title,
-      meta.layout,
-      "+",
-      data.title,
-      data.layout,
-      "=>",
-      merged.title,
-      merged.layout,
-    );
+export function layout(data, layoutFunc) {
+  return (page) => {
+    const merged = Object.assign(Object.create(page), data);
     merged.content = layoutFunc(merged);
-    merged.layout = meta.layout;
+    merged.layout = data.layout;
     return merged;
   };
 }
@@ -31,13 +21,6 @@ export async function resolveChain(currentResult) {
 
   // 同型関数なので、前の実行結果（データ一式）をそのまま次の関数に放り込むだけ！
   const nextResult = nextLayoutFunc(currentResult);
-  console.log(
-    currentResult.layout,
-    currentResult.title,
-    "=>",
-    nextResult.layout,
-    nextResult.title,
-  );
 
   // 再帰的に次の階層へ
   return resolveChain(nextResult);

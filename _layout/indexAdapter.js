@@ -1,27 +1,16 @@
+import { layout } from "../js/engine.js";
+
 /**
  * 記事一覧データからインデックス用の同型関数を生成するアダプター
  */
-export default function indexAdapter(postsMeta) {
-  // インデックスページ自体の設定（タイトルなど）
-  const defaults = {
-    title: "記事一覧",
-    layout: "index",
-  };
-  return (data) => {
-    const merged = Object.assign(Object.create(data), defaults);
-    console.log(
-      defaults.title,
-      defaults.layout,
-      "+",
-      data.title,
-      data.layout,
-      "=>",
-      merged.title,
-      merged.layout,
-    );
+export default function indexAdapter(posts) {
+  return layout(
+    // インデックスページ自体の設定（タイトルなど）
+    {
+      title: "記事一覧",
+      layout: "index",
+    },
     // 配列そのものをコンテンツとする
-    merged.content = postsMeta;
-    merged.layout = defaults.layout;
-    return merged;
-  };
+    () => posts,
+  );
 }

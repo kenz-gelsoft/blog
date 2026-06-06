@@ -6,15 +6,15 @@ export default layout(
     // ルートレイアウトでは layout: を指定しない
     layout: null,
   },
-  (data) => html`
+  (page) => html`
     <!DOCTYPE html>
     <html lang="ja">
       <head>
         <meta charset="UTF-8" />
-        <title>${data.title}</title>
+        <title>${page.title}</title>
       </head>
       <body>
-        ${data.content}
+        ${page.content}
       </body>
     </html>
   `,
