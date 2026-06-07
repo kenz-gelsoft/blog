@@ -1,6 +1,6 @@
 import { render } from "@lit-labs/ssr"; // LitのTemplateResultを文字列に変換する公式コア
 import { unsafeHTML } from "lit/directives/unsafe-html.js"; // ★インポートを追加
-import parseFrontmatter from "front-matter";
+import parseFrontmatter from "gray-matter";
 import fs from "fs";
 import { marked } from "marked";
 import path from "path";
@@ -20,7 +20,8 @@ fs.mkdirSync(DIST_DIR, { recursive: true });
  * 1. 同型関数のコアロジック (preview.js と100%同じ構造)
  */
 function createPostAdapter(rawMarkdown, filePath) {
-  const { attributes, body } = parseFrontmatter(rawMarkdown);
+  console.log(parseFrontmatter);
+  const { data: attributes, content: body } = parseFrontmatter(rawMarkdown);
   const bodyHtml = marked.parse(body);
 
   return (incomingData) => {

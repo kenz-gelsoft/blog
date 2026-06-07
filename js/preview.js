@@ -1,4 +1,4 @@
-import parseFrontmatter from "front-matter";
+import parseFrontmatter from "gray-matter";
 import { render } from "lit";
 import indexAdapter from "../layout/indexAdapter.js";
 import mdPost from "../layout/mdPost.js";
@@ -67,7 +67,7 @@ function init() {
       new URL(anchor.href).origin === window.location.origin
     ) {
       e.preventDefault(); // 通常のページ遷移（リロード）をキャンセル
-      window.scroll({top: 0});
+      window.scroll({ top: 0 });
       navigate(anchor.pathname); // History APIでURLを更新して再描画
     }
   });

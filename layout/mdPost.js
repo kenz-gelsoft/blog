@@ -1,4 +1,4 @@
-import parseFrontmatter from "front-matter";
+import parseFrontmatter from "gray-matter";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import { marked } from "marked";
 import { layout } from "../js/engine.js";
