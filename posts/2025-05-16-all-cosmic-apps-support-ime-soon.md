@@ -8,7 +8,7 @@ image: "/images/2025-05-16-all-cosmic-apps-support-ime-soon/cosmic-term1.png"
 published: true
 ---
 
-[COSMICデスクトップの日本語入力対応状況(2026/05)](/post/2025-05-09-cosmic-ja-status#cosmicアプリ)で唯一未対応としていた[COSMIC端末固有のIME対応](https://github.com/pop-os/cosmic-term/pull/753)がマージされました。COSMIC Epoch 1.0.14で今月中にはリリースされる見込みです。
+[COSMICデスクトップの日本語入力対応状況(2026/05)](/posts/2025-05-09-cosmic-ja-status#cosmicアプリ)で唯一未対応としていた[COSMIC端末固有のIME対応](https://github.com/pop-os/cosmic-term/pull/753)がマージされました。COSMIC Epoch 1.0.14で今月中にはリリースされる見込みです。
 
 つぎの画面のように`cosmic-term`のターミナル画面上で日本語入力ができるようになりました。
 

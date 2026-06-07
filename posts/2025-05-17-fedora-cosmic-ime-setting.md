@@ -8,7 +8,7 @@ image: "/images/2025-05-17-fedora-cosmic-ime-setting/fedora-cosmic-ime.png"
 published: true
 ---
 
-2025/05版の手順を説明します。以降の手順はFedora COSMIC Spin 44のARM64版をMac上のUTM仮想マシンに新規インストールして確認したものです。[Pop!_OS 24.04の日本語入力設定(2026/05)](/post/2025-05-17-pop-os-ime-setting) と大筋は同じです。
+2025/05版の手順を説明します。以降の手順はFedora COSMIC Spin 44のARM64版をMac上のUTM仮想マシンに新規インストールして確認したものです。[Pop!_OS 24.04の日本語入力設定(2026/05)](/posts/2025-05-17-pop-os-ime-setting) と大筋は同じです。
 
 大雑把な手順は次のとおり。
 
@@ -109,7 +109,7 @@ IMEを有効にするキーやキーボードショートカットを設定す�
 
 ## 参照
 
-[Pop!_OS 24.04の日本語入力設定(2026/05)](/post/2025-05-17-pop-os-ime-setting) の記事と同様です。
+[Pop!_OS 24.04の日本語入力設定(2026/05)](/posts/2025-05-17-pop-os-ime-setting) の記事と同様です。
 
 > - [fcitx5の公式から見る2026年の設定事情](https://blazechariot.netlify.app/blog/fcitx5-settings-2026/)
 >   - `GTK_IM_MODULE`, `QT_IM_MODULE` 等の動作について詳しく解説してくれています。今回手順の作成では考慮していませんが、参考になりそうです。
