@@ -51,6 +51,10 @@ export default layout(
       </head>
       <body>
         ${page.content}
+        <hr />
+        <address>
+          <a href="https://github.com/kenz-gelsoft/">&copy; KENZ</a>
+        </address>
       </body>
     </html>
   `,
