@@ -10,6 +10,7 @@ import mdPost from "./layout/mdPost";
 const DIST_DIR = "./dist";
 const PATHS_FILE = "./paths.txt";
 const BASE_URL = "https://your-site.com"; // Google用sitemapのベースURL
+const IMAGES_SRC_DIR = "./images"; // コピー元の画像ディレクトリ
 
 // ディレクトリのリセット
 if (fs.existsSync(DIST_DIR)) {
@@ -69,7 +70,7 @@ async function main() {
     console.log(`  📄 出力: ${htmlRelativePath}`);
   }
 
-  // 4. ついでにGooglebot用の sitemap.txt も同じデータからついでに自動出力！
+  // 4. Googlebot用の sitemap.txt を自動出力
   console.log("🤖 Googlebot用 sitemap.txt を生成中...");
   const sitemapText = allPosts
     .map(
@@ -78,6 +79,20 @@ async function main() {
     )
     .join("\n");
   fs.writeFileSync(path.join(DIST_DIR, "sitemap.txt"), sitemapText, "utf-8");
+
+  // 5. 【追加】images/ ディレクトリを dist/images/ に丸ごとコピー
+  if (fs.existsSync(IMAGES_SRC_DIR)) {
+    console.log("🖼️ 画像アセットをコピー中...");
+    const imagesDestDir = path.join(DIST_DIR, "images");
+
+    fs.cpSync(IMAGES_SRC_DIR, imagesDestDir, {
+      recursive: true, // サブディレクトリも丸ごと再帰的にコピー
+      force: true, // 同名ファイルがあっても上書き
+    });
+    console.log("  📁 画像のコピーが完了しました");
+  } else {
+    console.log("ℹ️ images/ ディレクトリが見つからないため、スキップしました");
+  }
 
   console.log("✨ すべての静的ビルドが正常に完了しました！ [./dist]");
 }
