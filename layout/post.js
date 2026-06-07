@@ -15,6 +15,7 @@ export default layout(
         ${page.author && html`<p>著者: ${page.author}</p>`}
       </header>
       <div class="body">${page.content}</div>
+      <p><a href="/index.html">一覧に戻る</a></p>
     </article>
   `,
 );
