@@ -12,7 +12,7 @@ async function renderPage() {
 
   // window.location.pathname から現在のパスを取得 (例: "/posts/tech/rust" -> "posts/tech/rust")
   // 先頭と末尾のロケールやスラッシュを掃除
-  const pathName = window.location.pathname.replace(/^\/|\/$/g, "");
+  const pathName = window.location.pathname.replace(/^\/|\/$|.html$/g, "");
   const currentPath = pathName === "" ? "index" : pathName;
 
   if (currentPath !== "index") {
