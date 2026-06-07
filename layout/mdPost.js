@@ -3,6 +3,21 @@ import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import { marked } from "marked";
 import { layout } from "../js/engine.js";
 
+// レンダラーのカスタマイズ
+const renderer = {
+  heading({ depth, text }) {
+    return `<h${depth} id="${text}">${text}</h${depth}>`;
+  },
+  link({ href, text }) {
+    const path = href.startsWith("/") ? `/blog${href}` : href;
+    return `<a href="${path}">${text}</a>`;
+  },
+  image({ href, text }) {
+    return `<img src="/blog${href}" alt=${text} />`;
+  },
+};
+
+marked.use({ renderer });
 export default (mdText) => {
   const defaults = {
     layout: "post",

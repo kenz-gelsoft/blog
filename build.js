@@ -8,7 +8,7 @@ import indexAdapter from "./layout/indexAdapter";
 import mdPost from "./layout/mdPost";
 
 // --- 設定 ---
-const DIST_DIR = "./dist";
+const DIST_DIR = "./dist/blog";
 const PATHS_FILE = "./paths.txt";
 const BASE_URL = "https://kenz-gelsoft.github.io/blog"; // Google用sitemapのベースURL
 const IMAGES_SRC_DIR = "./images"; // コピー元の画像ディレクトリ
@@ -93,7 +93,7 @@ async function main() {
     console.log("ℹ️ images/ ディレクトリが見つからないため、スキップしました");
   }
 
-  console.log("✨ すべての静的ビルドが正常に完了しました！ [./dist]");
+  console.log(`✨ すべての静的ビルドが正常に完了しました！ [${DIST_DIR}]`);
 }
 
 main().catch((err) => {
