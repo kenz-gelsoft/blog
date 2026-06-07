@@ -9,7 +9,7 @@ import mdPost from "./layout/mdPost";
 // --- 設定 ---
 const DIST_DIR = "./dist";
 const PATHS_FILE = "./paths.txt";
-const BASE_URL = "https://your-site.com"; // Google用sitemapのベースURL
+const BASE_URL = "https://kenz-gelsoft.github.io/blog"; // Google用sitemapのベースURL
 const IMAGES_SRC_DIR = "./images"; // コピー元の画像ディレクトリ
 
 // ディレクトリのリセット
