@@ -67,6 +67,7 @@ function init() {
       new URL(anchor.href).origin === window.location.origin
     ) {
       e.preventDefault(); // 通常のページ遷移（リロード）をキャンセル
+      window.scroll({top: 0});
       navigate(anchor.pathname); // History APIでURLを更新して再描画
     }
   });
