@@ -12,6 +12,12 @@ export default layout(
       <head>
         <meta charset="UTF-8" />
         <title>${page.title}</title>
+        <style type="text/css">
+          img {
+            max-width: 100vw;
+            max-height: 66vh;
+          }
+        </style>
       </head>
       <body>
         ${page.content}
