@@ -1,4 +1,4 @@
-import { html } from "lit";
+import { html } from "@lit-labs/ssr";
 import { layout } from "../js/engine.js";
 
 export default layout(

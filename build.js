@@ -1,9 +1,10 @@
-import { render } from "@lit-labs/ssr"; // LitのTemplateResultを文字列に変換する公式コア
-import { unsafeHTML } from "lit/directives/unsafe-html.js"; // ★インポートを追加
-import parseFrontmatter from "gray-matter";
+import { renderThunked } from "@lit-labs/ssr"; // LitのTemplateResultを文字列に変換する公式コア
+import { collectResult } from "@lit-labs/ssr/lib/render-result.js";
 import fs from "fs";
-import { marked } from "marked";
+import parseFrontmatter from "gray-matter";
 import path from "path";
+import { resolveChain } from "./js/engine";
+import mdPost from "./layout/mdPost";
 
 // --- 設定 ---
 const DIST_DIR = "./dist";
@@ -15,46 +16,6 @@ if (fs.existsSync(DIST_DIR)) {
   fs.rmSync(DIST_DIR, { recursive: true, force: true });
 }
 fs.mkdirSync(DIST_DIR, { recursive: true });
-
-/**
- * 1. 同型関数のコアロジック (preview.js と100%同じ構造)
- */
-function createPostAdapter(rawMarkdown, filePath) {
-  console.log(parseFrontmatter);
-  const { data: attributes, content: body } = parseFrontmatter(rawMarkdown);
-  const bodyHtml = marked.parse(body);
-
-  return (incomingData) => {
-    // Object.createによるデータカスケードの再現
-    const currentData = Object.assign(Object.create(attributes), incomingData);
-    currentData.content = unsafeHTML(bodyHtml);
-    currentData.path = filePath;
-    currentData.slug = filePath.replace(".md", "");
-    return currentData;
-  };
-}
-
-/**
- * 2. 多段レイアウトチェーンを解決して最終的なHTML文字列を吐き出す関数
- */
-async function resolveChainToHtml(initialContext) {
-  let context = initialContext;
-
-  // 最上流から最下流（layoutがなくなるまで）チェーンを遡る
-  while (context.layout) {
-    const layoutName = context.layout;
-    // _includes/ 内のレイアウト関数を動的インポート
-    const { default: defineLayoutFunc } = await import(
-      `./_includes/${layoutName}.js`
-    );
-
-    // 次の層のコンテキスト（新しいプロトタイプ膜）を生成
-    context = defineLayoutFunc(context);
-  }
-
-  // @lit-labs/ssr の render() はイテレータを返すため、joinして1枚の完全なHTML文字列にする
-  return Array.from(render(context.content)).join("");
-}
 
 /**
  * メインビルドプロセス
@@ -87,24 +48,15 @@ async function main() {
     };
   });
 
-  // サイト共通のグローバルコンテキストを定義
-  const globalContext = {
-    allPosts: allPosts, // ブログパーツやインデックスが欲しがる全データ
-    siteAuthor: "Your Name", // サイト共通の固定設定
-  };
-
   // 3. 各MarkdownファイルをビルドしてHTMLを書き出す
   for (const filePath of allPaths) {
     const rawMarkdown = fs.readFileSync(filePath, "utf-8");
 
     // 記事個別のアダプター関数を生成
-    const postAdapter = createPostAdapter(rawMarkdown, filePath);
+    const mdFunc = mdPost(rawMarkdown);
 
-    // グローバルデータを親として、記事のコンテキストを結合（Object.create）
-    const initialContext = postAdapter(globalContext);
-
-    // パイプラインを実行してHTML文字列を取得
-    const htmlResult = await resolveChainToHtml(initialContext);
+    const resolved = await resolveChain(mdFunc({}));
+    const htmlResult = await collectResult(renderThunked(resolved));
 
     // 出力先ファイルの決定（例: posts/tech/rust.md -> dist/posts/tech/rust.html）
     const htmlRelativePath = filePath.replace(".md", ".html");

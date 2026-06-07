@@ -16,6 +16,6 @@ export async function resolveChain(page) {
 
   // 親レイアウトファイルを動的インポート
   const layoutPath = `../layout/${page.layout}.js`;
-  const layoutFunc = (await import(layoutPath)).default;
+  const { default: layoutFunc } = await import(layoutPath);
   return resolveChain(layoutFunc(page));
 }
