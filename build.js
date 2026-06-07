@@ -4,6 +4,7 @@ import fs from "fs";
 import parseFrontmatter from "gray-matter";
 import path from "path";
 import { resolveChain } from "./js/engine";
+import indexAdapter from "./layout/indexAdapter";
 import mdPost from "./layout/mdPost";
 
 // --- 設定 ---
@@ -17,6 +18,16 @@ if (fs.existsSync(DIST_DIR)) {
   fs.rmSync(DIST_DIR, { recursive: true, force: true });
 }
 fs.mkdirSync(DIST_DIR, { recursive: true });
+
+async function generate(relativePath, layoutFunc) {
+  const resolved = await resolveChain(layoutFunc({}));
+  const htmlResult = await collectResult(renderThunked(resolved));
+  const outputFilePath = path.join(DIST_DIR, relativePath);
+  fs.mkdirSync(path.dirname(outputFilePath), { recursive: true });
+  fs.writeFileSync(outputFilePath, htmlResult, "utf-8");
+
+  console.log(`  📄 出力: ${relativePath}`);
+}
 
 /**
  * メインビルドプロセス
@@ -41,33 +52,21 @@ async function main() {
   console.log("📦 メタデータを収集してデータベースを構築中...");
   const allPosts = allPaths.map((filePath) => {
     const rawMarkdown = fs.readFileSync(filePath, "utf-8");
-    const { attributes } = parseFrontmatter(rawMarkdown);
+    const { data } = parseFrontmatter(rawMarkdown);
     return {
-      ...attributes,
+      ...data,
       path: filePath,
       slug: filePath.replace(".md", ""),
     };
   });
 
+  await generate("index.html", indexAdapter(allPosts));
+
   // 3. 各MarkdownファイルをビルドしてHTMLを書き出す
   for (const filePath of allPaths) {
     const rawMarkdown = fs.readFileSync(filePath, "utf-8");
-
-    // 記事個別のアダプター関数を生成
-    const mdFunc = mdPost(rawMarkdown);
-
-    const resolved = await resolveChain(mdFunc({}));
-    const htmlResult = await collectResult(renderThunked(resolved));
-
-    // 出力先ファイルの決定（例: posts/tech/rust.md -> dist/posts/tech/rust.html）
-    const htmlRelativePath = filePath.replace(".md", ".html");
-    const outputFilePath = path.join(DIST_DIR, htmlRelativePath);
-
-    // 再帰的にディレクトリを作って書き込み
-    fs.mkdirSync(path.dirname(outputFilePath), { recursive: true });
-    fs.writeFileSync(outputFilePath, htmlResult, "utf-8");
-
-    console.log(`  📄 出力: ${htmlRelativePath}`);
+    const relativePath = filePath.replace(".md", "/index.html");
+    await generate(relativePath, mdPost(rawMarkdown));
   }
 
   // 4. Googlebot用の sitemap.txt を自動出力
