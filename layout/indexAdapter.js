@@ -7,7 +7,7 @@ export default function indexAdapter(posts) {
   return layout(
     // インデックスページ自体の設定（タイトルなど）
     {
-      title: "記事一覧",
+      title: "そのたぐいのこと - on Other GUIs",
       layout: "index",
     },
     // 配列そのものをコンテンツとする
