@@ -53,7 +53,7 @@ export default layout(
         ${page.content}
         <hr />
         <address>
-          <a href="https://github.com/kenz-gelsoft/">&copy; KENZ</a>
+          <a href="${page.authorLink}">&copy; ${page.author}</a>
         </address>
       </body>
     </html>
