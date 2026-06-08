@@ -8,9 +8,10 @@ import indexAdapter from "./layout/indexAdapter";
 import mdPost from "./layout/mdPost";
 
 // --- 設定 ---
-const DIST_DIR = "./dist/blog";
+globalThis.BASE = "/blog";
+const DIST_DIR = `./dist${globalThis.BASE}`;
 const PATHS_FILE = "./paths.txt";
-const BASE_URL = "https://kenz-gelsoft.github.io/blog"; // Google用sitemapのベースURL
+const BASE_URL = `https://kenz-gelsoft.github.io${globalThis.BASE}`; // Google用sitemapのベースURL
 const IMAGES_SRC_DIR = "./images"; // コピー元の画像ディレクトリ
 
 // ディレクトリのリセット
@@ -20,7 +21,10 @@ if (fs.existsSync(DIST_DIR)) {
 fs.mkdirSync(DIST_DIR, { recursive: true });
 
 async function generate(relativePath, layoutFunc) {
-  const resolved = await resolveChain(layoutFunc({}));
+  const page = {
+    base: globalThis.BASE,
+  };
+  const resolved = await resolveChain(layoutFunc(page));
   const htmlResult = await collectResult(renderThunked(resolved));
   const outputFilePath = path.join(DIST_DIR, relativePath);
   fs.mkdirSync(path.dirname(outputFilePath), { recursive: true });
@@ -57,6 +61,7 @@ async function main() {
       ...data,
       path: filePath,
       slug: filePath.replace(".md", ""),
+      base: globalThis.BASE,
     };
   });
 

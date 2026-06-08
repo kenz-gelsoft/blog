@@ -4,6 +4,8 @@ import indexAdapter from "../layout/indexAdapter.js";
 import mdPost from "../layout/mdPost.js";
 import { resolveChain } from "./engine.js";
 
+globalThis.BASE = "";
+
 async function renderPage() {
   // 1. 相対パス一覧テキストをfetchして配列にする
   const res = await fetch("/paths.txt");
@@ -15,11 +17,15 @@ async function renderPage() {
   const pathName = window.location.pathname.replace(/^\/|\/$|index.html$/g, "");
   const currentPath = pathName === "" ? "index" : pathName;
 
+  const page = {
+    base: globalThis.BASE,
+  };
+
   if (currentPath !== "index") {
     // パス名に ".md" を付け直してfetch
     const md = await fetch(`/${currentPath}.md`);
     const postFunc = mdPost(await md.text());
-    const finalHtml = await resolveChain(postFunc({}));
+    const finalHtml = await resolveChain(postFunc(page));
     render(finalHtml, document.body);
   } else {
     // 一覧ページを表示するときだけ、全ファイルの「Frontmatter（メタデータ）だけ」を非同期で回収する
@@ -35,7 +41,7 @@ async function renderPage() {
       }),
     );
     const indexFunc = indexAdapter(postsMeta);
-    const finalHtml = await resolveChain(indexFunc({}));
+    const finalHtml = await resolveChain(indexFunc(page));
     render(finalHtml, document.body);
   }
 }

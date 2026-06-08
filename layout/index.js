@@ -19,7 +19,7 @@ export default layout(
             (post) => html`
               <li>
                 <time>${formatter.format(post.date)}</time>
-                <a href="/blog/${post.slug || ""}">${post.title}</a>
+                <a href="${post.base}/${post.slug || ""}">${post.title}</a>
                 <p>${post.description || ""}</p>
               </li>
             `,

@@ -9,11 +9,11 @@ const renderer = {
     return `<h${depth} id="${text}">${text}</h${depth}>`;
   },
   link({ href, text }) {
-    const path = href.startsWith("/") ? `/blog${href}` : href;
+    const path = href.startsWith("/") ? `${globalThis.BASE}${href}` : href;
     return `<a href="${path}">${text}</a>`;
   },
   image({ href, text }) {
-    return `<img src="/blog${href}" alt=${text} />`;
+    return `<img src="${globalThis.BASE}${href}" alt=${text} />`;
   },
 };
 
