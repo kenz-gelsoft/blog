@@ -78,8 +78,7 @@ async function main() {
   console.log("🤖 Googlebot用 sitemap.txt を生成中...");
   const sitemapText = allPosts
     .map(
-      (post) =>
-        `${BASE_URL}/${post.slug === "index" ? "" : post.slug + ".html"}`,
+      (post) => `${BASE_URL}/${post.slug === "index" ? "" : post.slug + "/"}`,
     )
     .join("\n");
   fs.writeFileSync(path.join(DIST_DIR, "sitemap.txt"), sitemapText, "utf-8");
