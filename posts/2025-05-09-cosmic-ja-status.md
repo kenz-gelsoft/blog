@@ -4,7 +4,7 @@ date: 2026-05-09
 description: "COSMICデスクトップの日本語入力対応状況(2026/05)"
 categories: Development
 tags: [COSMIC, Linux, "Pop!_OS", "日本語入力"]
-image: "/images/2025-05-09-cosmic-ja-status/cosmic1.png"
+image: "/images/2026-05-09-cosmic-ja-status/cosmic1.png"
 published: true
 ---
 
@@ -18,7 +18,7 @@ Linuxのデスクトップ環境として[GNOME](https://www.gnome.org/ja/)、[K
 
 ただ、新しく書かれた＝機能も限定されているため、[COSMICデスクトップ用アプリは日本語入力に対応しないまま](https://github.com/pop-os/cosmic-epoch/issues/2174)、最初の正式バージョンである[COSMIC Epoch 1](https://system76.com/blog/post/pop-os-letter-from-our-founder)がリリースされました。次なるメジャーバージョンアップである[COSMIC Epoch 2](https://system76.com/blog/post/cosmic-epoch-2-and-3-roadmap)では日本語入力の対応がスコープに含まれ、実際に対応が進んできているため、この記事では2026/05上旬現在の対応状況について共有したいと思います。
 
-![](/images/2025-05-09-cosmic-ja-status/cosmic1.png)
+![](/images/2026-05-09-cosmic-ja-status/cosmic1.png)
 
 ---
 
@@ -28,7 +28,7 @@ Linuxのデスクトップ環境として[GNOME](https://www.gnome.org/ja/)、[K
 
 Fcitx5と組み合わせるIMEとして、個人的には[Mozc](https://wiki.archlinux.jp/index.php/Mozc)でのみ動作を確認していますが、[Anthy](https://ja.wikipedia.org/wiki/Anthy)などその他のIMEでも動作するはずです。
 
-![](/images/2025-05-09-cosmic-ja-status/cosmic2.png)
+![](/images/2026-05-09-cosmic-ja-status/cosmic2.png)
 
 ## アプリごとの対応状況
 
@@ -51,7 +51,7 @@ Fcitx5と組み合わせるIMEとして、個人的には[Mozc](https://wiki.arc
 
 COSMICデスクトップ環境の[Waylandコンポジタ](https://ja.wikipedia.org/wiki/Wayland#Wayland%E3%82%B3%E3%83%B3%E3%83%9D%E3%82%B8%E3%82%BF)である`cosmic-comp`は最近まで[Waylandネイティブのインプットメソッド動作ではIMEの候補ウィンドウの表示位置がおかしい問題](https://github.com/pop-os/cosmic-comp/issues/1530)があり、[`GTK_IM_MODULES`環境変数や`QT_IM_MODULES`環境変数](https://wiki.archlinux.jp/index.php/Fcitx5#IM_%E3%83%A2%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB)の設定が必要でした。
 
-2026/05/09ごろにPop!_OSや[Fedora COSMIC Nightly Release](https://copr.fedorainfracloud.org/coprs/ryanabx/cosmic-epoch/)に配信された`cosmic-comp`では[Waylandネイティブのインプットメソッド動作への改善](https://github.com/pop-os/cosmic-comp/pull/2320)が含まれており、2025/05/09現在では`GTK_IM_MODULES`、`QT_IM_MODULES`環境変数を設定なしに変更したほうが適切な動作をする状態となっています。このあたりも含めた最新の日本語入力設定の方法については別記事にて説明する予定です。
+2026/05/09ごろにPop!_OSや[Fedora COSMIC Nightly Release](https://copr.fedorainfracloud.org/coprs/ryanabx/cosmic-epoch/)に配信された`cosmic-comp`では[Waylandネイティブのインプットメソッド動作への改善](https://github.com/pop-os/cosmic-comp/pull/2320)が含まれており、2026/05/09現在では`GTK_IM_MODULES`、`QT_IM_MODULES`環境変数を設定なしに変更したほうが適切な動作をする状態となっています。このあたりも含めた最新の日本語入力設定の方法については別記事にて説明する予定です。
 
 ---
 

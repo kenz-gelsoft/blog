@@ -4,11 +4,11 @@ date: 2026-05-17
 description: "Fedora 44でのCOSMICデスクトップの日本語入力設定を説明します。"
 categories: Development
 tags: [COSMIC, Linux, "日本語入力"]
-image: "/images/2025-05-17-fedora-cosmic-ime-setting/fedora-cosmic-ime.png"
+image: "/images/2026-05-17-fedora-cosmic-ime-setting/fedora-cosmic-ime.png"
 published: true
 ---
 
-2025/05版の手順を説明します。以降の手順はFedora COSMIC Spin 44のARM64版をMac上のUTM仮想マシンに新規インストールして確認したものです。[Pop!_OS 24.04の日本語入力設定(2026/05)](/posts/2025-05-17-pop-os-ime-setting) と大筋は同じです。
+2026/05版の手順を説明します。以降の手順はFedora COSMIC Spin 44のARM64版をMac上のUTM仮想マシンに新規インストールして確認したものです。[Pop!_OS 24.04の日本語入力設定(2026/05)](/posts/2026-05-17-pop-os-ime-setting) と大筋は同じです。
 
 大雑把な手順は次のとおり。
 
@@ -22,7 +22,7 @@ published: true
 
 各手順の詳細と動作確認方法が続きます。
 
-![](/images/2025-05-17-fedora-cosmic-ime-setting/fedora-cosmic-ime.png)
+![](/images/2026-05-17-fedora-cosmic-ime-setting/fedora-cosmic-ime.png)
 
 
 ## 手順詳細
@@ -60,13 +60,13 @@ export LANG=ja_JP.UTF-8
 COSMIC設定の「スタートアップアプリケーション」に設定するのが簡単です。
 
 1. COSMIC設定を開く
-2. 「アプリケーション」の「スタートアップアプリケーション」を開く<br>![](/images/2025-05-17-fedora-cosmic-ime-setting/autostart1.png)
+2. 「アプリケーション」の「スタートアップアプリケーション」を開く<br>![](/images/2026-05-17-fedora-cosmic-ime-setting/autostart1.png)
 3. 「アプリを追加」ボタンをクリック
-4. 「Fcitx 5」を検索して「追加」をクリック<br>![](/images/2025-05-17-fedora-cosmic-ime-setting/autostart2.png)
+4. 「Fcitx 5」を検索して「追加」をクリック<br>![](/images/2026-05-17-fedora-cosmic-ime-setting/autostart2.png)
 
 以下の画面になったら設定完了。
 
-![](/images/2025-05-17-fedora-cosmic-ime-setting/autostart3.png)
+![](/images/2026-05-17-fedora-cosmic-ime-setting/autostart3.png)
 
 自動起動の設定は再起動後に有効になります。
 
@@ -80,14 +80,14 @@ COSMIC設定の「スタートアップアプリケーション」に設定す�
 
 表示されていなければ[「Fcitx 5の自動起動を設定」](#fcitx-5の自動起動を設定)を再確認してください。
 
-![](/images/2025-05-17-fedora-cosmic-ime-setting/check1.png)
+![](/images/2026-05-17-fedora-cosmic-ime-setting/check1.png)
 
 ### Mozcの設定
 
 1. 上記メニューの「入力メソッドの設定」から「Fcitxの設定」を開きます。
-2. 「有効な入力メソッド」で「Mozc」を選択してダブルクリックします。（「＜」ボタンやEnterキーでも可。）<br>![](/images/2025-05-17-fedora-cosmic-ime-setting/add-mozc1.png)
-3. 「現在の入力メソッド」に「Mozc」が追加されたことを確認して「OK」で設定を閉じます。<br>![](/images/2025-05-17-fedora-cosmic-ime-setting/add-mozc2.png)
-4. 再び、パネルのキーボードアイコンを右クリックして、つぎのようにMozcのアイコンが追加されていればOKです。<br>![](/images/2025-05-17-fedora-cosmic-ime-setting/add-mozc3.png)
+2. 「有効な入力メソッド」で「Mozc」を選択してダブルクリックします。（「＜」ボタンやEnterキーでも可。）<br>![](/images/2026-05-17-fedora-cosmic-ime-setting/add-mozc1.png)
+3. 「現在の入力メソッド」に「Mozc」が追加されたことを確認して「OK」で設定を閉じます。<br>![](/images/2026-05-17-fedora-cosmic-ime-setting/add-mozc2.png)
+4. 再び、パネルのキーボードアイコンを右クリックして、つぎのようにMozcのアイコンが追加されていればOKです。<br>![](/images/2026-05-17-fedora-cosmic-ime-setting/add-mozc3.png)
 
 ## 動作確認
 
@@ -95,13 +95,13 @@ COSMIC設定の「スタートアップアプリケーション」に設定す�
 
 この状態で意図通り日本語入力ができるはずです！
 
-![](/images/2025-05-17-fedora-cosmic-ime-setting/check2.png)
+![](/images/2026-05-17-fedora-cosmic-ime-setting/check2.png)
 
 ### IMEオン・オフキーのカスタマイズ
 
 IMEを有効にするキーやキーボードショートカットを設定する場合は上記パネルのキーボードアイコン右クリックから「設定」メニューを選択して「Fcitxの設定」を開きます。
 
-![](/images/2025-05-17-fedora-cosmic-ime-setting/fcitx5-configtool.png)
+![](/images/2026-05-17-fedora-cosmic-ime-setting/fcitx5-configtool.png)
 
 「グローバルオプション」タブの「入力メソッドの切り替え」「入力メソッドを有効にする」「入力メソッドをオフにする」などの設定を使いやすいように変更してください。
 
@@ -109,7 +109,7 @@ IMEを有効にするキーやキーボードショートカットを設定す�
 
 ## 参照
 
-[Pop!_OS 24.04の日本語入力設定(2026/05)](/posts/2025-05-17-pop-os-ime-setting) の記事と同様です。
+[Pop!_OS 24.04の日本語入力設定(2026/05)](/posts/2026-05-17-pop-os-ime-setting) の記事と同様です。
 
 > - [fcitx5の公式から見る2026年の設定事情](https://blazechariot.netlify.app/blog/fcitx5-settings-2026/)
 >   - `GTK_IM_MODULE`, `QT_IM_MODULE` 等の動作について詳しく解説してくれています。今回手順の作成では考慮していませんが、参考になりそうです。

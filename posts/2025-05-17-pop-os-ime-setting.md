@@ -4,11 +4,11 @@ date: 2026-05-17
 description: "Pop!_OS 24.04でのCOSMICデスクトップの日本語入力設定を説明します。"
 categories: Development
 tags: [COSMIC, Linux, "Pop!_OS", "日本語入力"]
-image: "/images/2025-05-17-pop-os-ime-setting/pop-ime-config.png"
+image: "/images/2026-05-17-pop-os-ime-setting/pop-ime-config.png"
 published: true
 ---
 
-2025/05版の手順を説明します。以降の手順はPop!_OS 24.04のARM64版をMac上のUTM仮想マシンに新規インストールして確認したものです。大雑把な手順は次のとおり。
+2026/05版の手順を説明します。以降の手順はPop!_OS 24.04のARM64版をMac上のUTM仮想マシンに新規インストールして確認したものです。大雑把な手順は次のとおり。
 
 1. [パッケージを最新に更新](#パッケージを最新に更新)
 2. [`fcitx5-mozc`パッケージをインストール](#fcitx5-mozcパッケージをインストール)
@@ -18,7 +18,7 @@ published: true
 
 各手順の詳細と動作確認方法が続きます。
 
-![](/images/2025-05-17-pop-os-ime-setting/pop-ime-config.png)
+![](/images/2026-05-17-pop-os-ime-setting/pop-ime-config.png)
 
 
 ## 手順詳細
@@ -44,13 +44,13 @@ $ sudo apt install fcitx5-mozc
 COSMIC設定の「スタートアップアプリケーション」に設定するのが簡単です。
 
 1. COSMIC設定を開く
-2. 「アプリケーション」の「スタートアップアプリケーション」を開く<br>![](/images/2025-05-17-pop-os-ime-setting/autostart1.png)
+2. 「アプリケーション」の「スタートアップアプリケーション」を開く<br>![](/images/2026-05-17-pop-os-ime-setting/autostart1.png)
 3. 「アプリを追加」ボタンをクリック
-4. 「Fcitx 5」を検索して「追加」をクリック<br>![](/images/2025-05-17-pop-os-ime-setting/autostart2.png)
+4. 「Fcitx 5」を検索して「追加」をクリック<br>![](/images/2026-05-17-pop-os-ime-setting/autostart2.png)
 
 以下の画面になったら設定完了。
 
-![](/images/2025-05-17-pop-os-ime-setting/autostart3.png)
+![](/images/2026-05-17-pop-os-ime-setting/autostart3.png)
 
 自動起動の設定は再起動後に有効になります。
 
@@ -73,7 +73,7 @@ unset XMODIFIERS
 
 ブラウザやCOSMICアプリ以外のGTKやQtのアプリは、これらの環境変数の有無でIMEの動作が変わります。具体的には設定なしの場合はWaylandの仕組みで、設定ありの場合は(`fcitx`と書いていなくても)GTKやQt固有の仕組みでIMEの動作をするようになります。
 
-[2025/05/09以降はWaylandネイティブのIME動作への改善が入った](/posts/2025-05-09-cosmic-ja-status#その他多くのgtk/qtアプリ)関係で、これらの環境変数設定なしのほうがより適切な動作になります。
+[2026/05/09以降はWaylandネイティブのIME動作への改善が入った](/posts/2026-05-09-cosmic-ja-status#その他多くのgtk/qtアプリ)関係で、これらの環境変数設定なしのほうがより適切な動作になります。
 
 ### 再起動
 
@@ -87,19 +87,19 @@ unset XMODIFIERS
 
 表示されていなければ[「Fcitx 5の自動起動を設定」](#fcitx-5の自動起動を設定)を再確認してください。
 
-![](/images/2025-05-17-pop-os-ime-setting/check1.png)
+![](/images/2026-05-17-pop-os-ime-setting/check1.png)
 
 アプリを開き、「半角／全角」「漢字」「Ctrl+スペース」などのキーでIMEを有効にします。MacのUTMなど仮想マシンで有効なキーボードショートカットがない場合は、ひとまず上記パネルのキーボードアイコンをクリックすると日本語入力(Mozc)に切り替わります。
 
 この状態で意図通り日本語入力ができるはずです！
 
-![](/images/2025-05-17-pop-os-ime-setting/check2.png)
+![](/images/2026-05-17-pop-os-ime-setting/check2.png)
 
 ### IMEオン・オフキーのカスタマイズ
 
 IMEを有効にするキーやキーボードショートカットを設定する場合は上記パネルのキーボードアイコン右クリックから「設定」メニューを選択して「Fcitxの設定」を開きます。
 
-![](/images/2025-05-17-pop-os-ime-setting/fcitx5-configtool.png)
+![](/images/2026-05-17-pop-os-ime-setting/fcitx5-configtool.png)
 
 「グローバルオプション」タブの「入力メソッドの切り替え」「入力メソッドを有効にする」「入力メソッドをオフにする」などの設定を使いやすいように変更してください。
 
@@ -109,11 +109,11 @@ IMEを有効にするキーやキーボードショートカットを設定す�
 
 COSMICアプリ以外、たとえばFirefoxで日本語入力をテストします。つぎのように正しい位置に候補ウィンドウが表示されていればうまく動作しています。
 
-![](/images/2025-05-17-pop-os-ime-setting/firefox-ok.png)
+![](/images/2026-05-17-pop-os-ime-setting/firefox-ok.png)
 
 つぎのように候補ウィンドウの位置がおかしい場合は[「環境変数を設定」](#環境変数を設定)の手順を再確認してください。
 
-![](/images/2025-05-17-pop-os-ime-setting/firefox-ng.png)
+![](/images/2026-05-17-pop-os-ime-setting/firefox-ng.png)
 
 つぎのコマンドでこれらの環境変数が設定されていないことも確認します。
 ```sh
