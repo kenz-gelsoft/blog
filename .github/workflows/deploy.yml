@@ -34,7 +34,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # dist/ をアップロード
+          # dist/blog をアップロード
           path: "dist/blog"
 
       - name: Deploy to GitHub Pages
