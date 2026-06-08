@@ -2,13 +2,25 @@ import parseFrontmatter from "gray-matter";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import { marked } from "marked";
 import { layout } from "../js/engine.js";
+import * as cheerio from "cheerio/slim";
 
 // レンダラーのカスタマイズ
 const renderer = {
-  heading({ depth, text }) {
-    return `<h${depth} id="${text}">${text}</h${depth}>`;
+  heading({ depth, tokens }) {
+    const text = this.parser.parseInline(tokens);
+
+    const $ = cheerio.load(`<body>${text}<body>`);
+    const idText = $("body").text().replace(/\s+/g, "-").toLowerCase();
+
+    return `<h${depth} id="${idText}">
+              ${text}
+              <a class="anchor" href="#${idText}">
+                <span class="header-link">#</span>
+              </a>
+            </h${depth}>`;
   },
-  link({ href, text }) {
+  link({ href, tokens }) {
+    const text = this.parser.parseInline(tokens);
     const path = href.startsWith("/") ? `${globalThis.BASE}${href}` : href;
     return `<a href="${path}">${text}</a>`;
   },

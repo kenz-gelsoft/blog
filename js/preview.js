@@ -70,11 +70,12 @@ function init() {
     if (
       anchor &&
       anchor.href &&
-      new URL(anchor.href).origin === window.location.origin
+      new URL(anchor.href).origin === window.location.origin &&
+      anchor.pathname !== window.location.pathname
     ) {
       e.preventDefault(); // 通常のページ遷移（リロード）をキャンセル
       window.scroll({ top: 0 });
-      navigate(anchor.pathname); // History APIでURLを更新して再描画
+      navigate(anchor.href); // History APIでURLを更新して再描画
     }
   });
 }
