@@ -35,7 +35,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           # dist/ をアップロード
-          path: "dist"
+          path: "dist/blog"
 
       - name: Deploy to GitHub Pages
         id: deployment
