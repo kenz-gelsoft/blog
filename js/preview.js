@@ -1,6 +1,7 @@
 import parseFrontmatter from "gray-matter";
 import { render } from "lit";
-import indexAdapter from "../layout/indexAdapter.js";
+import config from "../config.json" with { type: "json" };
+import index from "../layout/index.js";
 import mdPost from "../layout/mdPost.js";
 import { resolveChain } from "./engine.js";
 
@@ -18,6 +19,7 @@ async function renderPage() {
   const currentPath = pathName === "" ? "index" : pathName;
 
   const page = {
+    ...config,
     base: globalThis.BASE,
   };
 
@@ -29,19 +31,20 @@ async function renderPage() {
     render(finalHtml, document.body);
   } else {
     // 一覧ページを表示するときだけ、全ファイルの「Frontmatter（メタデータ）だけ」を非同期で回収する
-    const postsMeta = await Promise.all(
-      allPaths.map(async (filePath) => {
-        const md = await fetch(`/${filePath}`);
-        const { data: meta } = parseFrontmatter(await md.text());
-        return {
-          ...meta,
-          path: filePath,
-          slug: filePath.replace(".md", ""),
-        };
-      }),
-    );
-    const indexFunc = indexAdapter(postsMeta);
-    const finalHtml = await resolveChain(indexFunc(page));
+    const site = Object.assign(Object.create(page), {
+      pages: await Promise.all(
+        allPaths.map(async (filePath) => {
+          const md = await fetch(`/${filePath}`);
+          const { data: meta } = parseFrontmatter(await md.text());
+          return {
+            ...meta,
+            path: filePath,
+            slug: filePath.replace(".md", ""),
+          };
+        }),
+      ),
+    });
+    const finalHtml = await resolveChain(index(site));
     render(finalHtml, document.body);
   }
 }

@@ -1,8 +1,8 @@
+import * as cheerio from "cheerio/slim";
 import parseFrontmatter from "gray-matter";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import { marked } from "marked";
 import { layout } from "../js/engine.js";
-import * as cheerio from "cheerio/slim";
 
 // レンダラーのカスタマイズ
 const renderer = {
@@ -30,6 +30,7 @@ const renderer = {
 };
 
 marked.use({ renderer });
+
 export default (mdText) => {
   const defaults = {
     layout: "post",
