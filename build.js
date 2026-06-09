@@ -3,7 +3,7 @@ import { collectResult } from "@lit-labs/ssr/lib/render-result.js";
 import fs from "node:fs/promises";
 import path from "path";
 import config from "./config.json" with { type: "json" };
-import { allPathsAndPosts, Router } from "./js/engine";
+import { Router } from "./js/engine";
 
 // --- 設定 ---
 globalThis.BASE = "/blog";
@@ -34,11 +34,6 @@ async function main() {
     process.exit(1);
   }
 
-  // 2. 全ファイルのメタデータ（Frontmatter）を事前に回収（インデックス・ブログパーツ用）
-  console.log("📦 メタデータを収集してデータベースを構築中...");
-  const { allPaths, allPosts } = await allPathsAndPosts(PATHS_FILE, readFile);
-
-  // 3. 各MarkdownファイルをビルドしてHTMLを書き出す
   const router = new Router({
     config,
     readFile,
@@ -56,6 +51,12 @@ async function main() {
     },
   });
 
+  // 2. 全ファイルのメタデータ（Frontmatter）を事前に回収（インデックス・ブログパーツ用）
+  console.log("📦 メタデータを収集してデータベースを構築中...");
+  const allPosts = await router.allPosts();
+  const allPaths = allPosts.map((p) => p.path);
+
+  // 3. 各MarkdownファイルをビルドしてHTMLを書き出す
   await router.renderPath("index");
   for (const filePath of allPaths) {
     await router.renderPath(filePath.replace(".md", ""));
