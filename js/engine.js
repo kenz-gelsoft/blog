@@ -72,7 +72,7 @@ export class Router {
     };
 
     if (path !== "index") {
-      const postLayout = await mdPost(`${path}.md`, this._readFile);
+      const postLayout = await mdPost(path, this._readFile);
       const finalHtml = await resolveChain(postLayout(page));
       this._render(finalHtml, path);
     } else {
