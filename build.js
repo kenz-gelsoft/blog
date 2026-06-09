@@ -3,9 +3,7 @@ import { collectResult } from "@lit-labs/ssr/lib/render-result.js";
 import fs from "node:fs/promises";
 import path from "path";
 import config from "./config.json" with { type: "json" };
-import { allPathsAndPosts, resolveChain } from "./js/engine";
-import index from "./layout/index";
-import mdPost from "./layout/mdPost";
+import { allPathsAndPosts, Router } from "./js/engine";
 
 // --- 設定 ---
 globalThis.BASE = "/blog";
@@ -19,16 +17,6 @@ if (await fs.exists(DIST_DIR)) {
   await fs.rm(DIST_DIR, { recursive: true, force: true });
 }
 await fs.mkdir(DIST_DIR, { recursive: true });
-
-async function generate(relativePath, layout) {
-  const resolved = await resolveChain(layout);
-  const htmlResult = await collectResult(renderThunked(resolved));
-  const outputFilePath = path.join(DIST_DIR, relativePath);
-  await fs.mkdir(path.dirname(outputFilePath), { recursive: true });
-  await fs.writeFile(outputFilePath, htmlResult, "utf-8");
-
-  console.log(`  📄 出力: ${relativePath}`);
-}
 
 const readFile = async (path) => fs.readFile(path, "utf-8");
 
@@ -50,21 +38,27 @@ async function main() {
   console.log("📦 メタデータを収集してデータベースを構築中...");
   const { allPaths, allPosts } = await allPathsAndPosts(PATHS_FILE, readFile);
 
-  const page = {
-    ...config,
-    base: globalThis.BASE,
-  };
-
-  const site = Object.assign(Object.create(page), {
-    pages: allPosts,
-  });
-  await generate("index.html", index(site));
-
   // 3. 各MarkdownファイルをビルドしてHTMLを書き出す
+  const router = new Router({
+    config,
+    readFile,
+    render: async (resolved, filePath) => {
+      const relativePath =
+        filePath === "index"
+          ? "index.html"
+          : filePath.replace(".md", "/index.html");
+      const htmlResult = await collectResult(renderThunked(resolved));
+      const outputFilePath = path.join(DIST_DIR, relativePath);
+      await fs.mkdir(path.dirname(outputFilePath), { recursive: true });
+      await fs.writeFile(outputFilePath, htmlResult, "utf-8");
+
+      console.log(`  📄 出力: ${relativePath}`);
+    },
+  });
+
+  await router.renderPath("index");
   for (const filePath of allPaths) {
-    const postLayout = await mdPost(filePath, readFile);
-    const relativePath = filePath.replace(".md", "/index.html");
-    await generate(relativePath, postLayout(page));
+    await router.renderPath(filePath.replace(".md", ""));
   }
 
   // 4. Googlebot用の sitemap.txt を自動出力

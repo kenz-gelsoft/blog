@@ -66,7 +66,7 @@ export class Router {
     return this._allPosts;
   }
 
-  async renderPath(path, renderInternal) {
+  async renderPath(path) {
     const page = {
       ...this._config,
       base: globalThis.BASE,
@@ -75,7 +75,7 @@ export class Router {
     if (path !== "index") {
       const postLayout = await mdPost(`${path}.md`, this._readFile);
       const finalHtml = await resolveChain(postLayout(page));
-      this._render(finalHtml);
+      this._render(finalHtml, path);
     } else {
       const site = Object.assign(Object.create(page), {
         // 一覧ページを表示するときだけ、全ファイルの「Frontmatter（メタデータ）だけ」を非同期で回収する
@@ -83,7 +83,7 @@ export class Router {
       });
 
       const finalHtml = await resolveChain(index(site));
-      this._render(finalHtml);
+      this._render(finalHtml, path);
     }
   }
 }
