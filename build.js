@@ -1,10 +1,9 @@
 import { renderThunked } from "@lit-labs/ssr"; // LitのTemplateResultを文字列に変換する公式コア
 import { collectResult } from "@lit-labs/ssr/lib/render-result.js";
 import fs from "node:fs/promises";
-import parseFrontmatter from "gray-matter";
 import path from "path";
 import config from "./config.json" with { type: "json" };
-import { resolveChain } from "./js/engine";
+import { allPathsAndPosts, resolveChain } from "./js/engine";
 import index from "./layout/index";
 import mdPost from "./layout/mdPost";
 
@@ -44,29 +43,18 @@ async function main() {
     );
     process.exit(1);
   }
-  const allPaths = (await fs.readFile(PATHS_FILE, "utf-8"))
-    .split("\n")
-    .map((p) => p.trim())
-    .filter((p) => p !== "");
+
+  // 2. 全ファイルのメタデータ（Frontmatter）を事前に回収（インデックス・ブログパーツ用）
+  console.log("📦 メタデータを収集してデータベースを構築中...");
+  const { allPaths, allPosts } = await allPathsAndPosts(
+    PATHS_FILE,
+    async (path) => fs.readFile(path, "utf-8"),
+  );
 
   const page = {
     ...config,
     base: globalThis.BASE,
   };
-
-  // 2. 全ファイルのメタデータ（Frontmatter）を事前に回収（インデックス・ブログパーツ用）
-  console.log("📦 メタデータを収集してデータベースを構築中...");
-  const allPosts = await Promise.all(
-    allPaths.map(async (filePath) => {
-      const rawMarkdown = await fs.readFile(filePath, "utf-8");
-      const { data } = parseFrontmatter(rawMarkdown);
-      return {
-        ...data,
-        path: filePath,
-        slug: filePath.replace(".md", ""),
-      };
-    }),
-  );
 
   const site = Object.assign(Object.create(page), {
     pages: allPosts,

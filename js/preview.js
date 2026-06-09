@@ -1,17 +1,15 @@
-import parseFrontmatter from "gray-matter";
 import { render } from "lit";
 import config from "../config.json" with { type: "json" };
 import index from "../layout/index.js";
 import mdPost from "../layout/mdPost.js";
-import { resolveChain } from "./engine.js";
+import { allPathsAndPosts, resolveChain } from "./engine.js";
 
 globalThis.BASE = "";
 
+const readFile = async (path) => (await fetch(`/${path}`)).text();
+
 async function renderPage() {
-  // 1. 相対パス一覧テキストをfetchして配列にする
-  const res = await fetch("/paths.txt");
-  const text = await res.text();
-  const allPaths = text.split("\n").filter((p) => p.trim() !== "");
+  const { allPosts } = await allPathsAndPosts("paths.txt", readFile);
 
   // window.location.pathname から現在のパスを取得 (例: "/posts/tech/rust" -> "posts/tech/rust")
   // 先頭と末尾のロケールやスラッシュを掃除
@@ -32,18 +30,9 @@ async function renderPage() {
   } else {
     // 一覧ページを表示するときだけ、全ファイルの「Frontmatter（メタデータ）だけ」を非同期で回収する
     const site = Object.assign(Object.create(page), {
-      pages: await Promise.all(
-        allPaths.map(async (filePath) => {
-          const md = await fetch(`/${filePath}`);
-          const { data: meta } = parseFrontmatter(await md.text());
-          return {
-            ...meta,
-            path: filePath,
-            slug: filePath.replace(".md", ""),
-          };
-        }),
-      ),
+      pages: allPosts,
     });
+
     const finalHtml = await resolveChain(index(site));
     render(finalHtml, document.body);
   }
