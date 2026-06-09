@@ -59,7 +59,7 @@ async function main() {
   // 3. 各MarkdownファイルをビルドしてHTMLを書き出す
   await router.renderPath("index");
   for (const filePath of allPaths) {
-    await router.renderPath(filePath.replace(".md", ""));
+    await router.renderPath(filePath);
   }
 
   // 4. Googlebot用の sitemap.txt を自動出力
