@@ -24,27 +24,6 @@ export async function resolveChain(page) {
   return resolveChain(layoutFunc(page));
 }
 
-export async function allPathsAndPosts(pathsFile, readFile) {
-  const allPaths = (await readFile(pathsFile))
-    .split("\n")
-    .map((p) => p.trim())
-    .filter((p) => p !== "");
-
-  const allPosts = await Promise.all(
-    allPaths.map(async (filePath) => {
-      const rawMarkdown = await readFile(filePath);
-      const { data } = parseFrontmatter(rawMarkdown);
-      return {
-        ...data,
-        path: filePath,
-        slug: filePath.replace(".md", ""),
-      };
-    }),
-  );
-
-  return { allPaths, allPosts };
-}
-
 export class Router {
   _config = {};
   _readFile = null;
@@ -57,11 +36,31 @@ export class Router {
   }
 
   // キャッシュ
+  _allPaths = null;
   _allPosts = null;
+  async allPaths() {
+    if (this._allPaths == null) {
+      this._allPaths = (await this._readFile("paths.txt"))
+        .split("\n")
+        .map((p) => p.trim())
+        .filter((p) => p !== "");
+    }
+    return this._allPaths;
+  }
   async allPosts() {
     if (this._allPosts == null) {
-      const { allPosts } = await allPathsAndPosts("paths.txt", this._readFile);
-      this._allPosts = allPosts;
+      const allPaths = await this.allPaths();
+      this._allPosts = await Promise.all(
+        allPaths.map(async (filePath) => {
+          const rawMarkdown = await this._readFile(filePath);
+          const { data } = parseFrontmatter(rawMarkdown);
+          return {
+            ...data,
+            path: filePath,
+            slug: filePath.replace(".md", ""),
+          };
+        }),
+      );
     }
     return this._allPosts;
   }
