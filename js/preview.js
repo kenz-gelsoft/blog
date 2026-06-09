@@ -22,10 +22,8 @@ async function renderPage() {
   };
 
   if (currentPath !== "index") {
-    // パス名に ".md" を付け直してfetch
-    const md = await fetch(`/${currentPath}.md`);
-    const postFunc = mdPost(await md.text());
-    const finalHtml = await resolveChain(postFunc(page));
+    const postLayout = await mdPost(`${currentPath}.md`, readFile);
+    const finalHtml = await resolveChain(postLayout(page));
     render(finalHtml, document.body);
   } else {
     // 一覧ページを表示するときだけ、全ファイルの「Frontmatter（メタデータ）だけ」を非同期で回収する

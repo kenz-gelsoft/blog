@@ -31,10 +31,11 @@ const renderer = {
 
 marked.use({ renderer });
 
-export default (mdText) => {
+export default async (path, readFile) => {
   const defaults = {
     layout: "post",
   };
+  const mdText = await readFile(path);
   const { data, content } = parseFrontmatter(mdText);
   const merged = Object.assign(Object.create(defaults), data);
   merged.content = marked.parse(content);

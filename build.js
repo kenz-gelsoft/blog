@@ -30,6 +30,8 @@ async function generate(relativePath, layout) {
   console.log(`  📄 出力: ${relativePath}`);
 }
 
+const readFile = async (path) => fs.readFile(path, "utf-8");
+
 /**
  * メインビルドプロセス
  */
@@ -46,10 +48,7 @@ async function main() {
 
   // 2. 全ファイルのメタデータ（Frontmatter）を事前に回収（インデックス・ブログパーツ用）
   console.log("📦 メタデータを収集してデータベースを構築中...");
-  const { allPaths, allPosts } = await allPathsAndPosts(
-    PATHS_FILE,
-    async (path) => fs.readFile(path, "utf-8"),
-  );
+  const { allPaths, allPosts } = await allPathsAndPosts(PATHS_FILE, readFile);
 
   const page = {
     ...config,
@@ -63,9 +62,9 @@ async function main() {
 
   // 3. 各MarkdownファイルをビルドしてHTMLを書き出す
   for (const filePath of allPaths) {
-    const rawMarkdown = await fs.readFile(filePath, "utf-8");
+    const postLayout = await mdPost(filePath, readFile);
     const relativePath = filePath.replace(".md", "/index.html");
-    await generate(relativePath, mdPost(rawMarkdown)(page));
+    await generate(relativePath, postLayout(page));
   }
 
   // 4. Googlebot用の sitemap.txt を自動出力
