@@ -9,8 +9,6 @@ globalThis.BASE = "";
 const readFile = async (path) => (await fetch(`/${path}`)).text();
 
 async function renderPage() {
-  const { allPosts } = await allPathsAndPosts("paths.txt", readFile);
-
   // window.location.pathname から現在のパスを取得 (例: "/posts/tech/rust" -> "posts/tech/rust")
   // 先頭と末尾のロケールやスラッシュを掃除
   const pathName = window.location.pathname.replace(/^\/|\/$|index.html$/g, "");
@@ -27,6 +25,7 @@ async function renderPage() {
     render(finalHtml, document.body);
   } else {
     // 一覧ページを表示するときだけ、全ファイルの「Frontmatter（メタデータ）だけ」を非同期で回収する
+    const { allPosts } = await allPathsAndPosts("paths.txt", readFile);
     const site = Object.assign(Object.create(page), {
       pages: allPosts,
     });
