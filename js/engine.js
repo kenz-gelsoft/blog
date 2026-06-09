@@ -12,7 +12,7 @@ export function layout(data, layoutFunc) {
 }
 
 // レイアウトチェーンを再帰的に解決するピュアな関数
-export async function resolveChain(page) {
+async function resolveChain(page) {
   // 次の親（layout）が指定されていなければ、これが最終成果物のHTML（TemplateResult）
   if (!page.layout) {
     return page.content;
@@ -53,9 +53,10 @@ export class Router {
       this._allPosts = await Promise.all(
         allPaths.map(async (filePath) => {
           const rawMarkdown = await this._readFile(filePath);
-          const { data } = parseFrontmatter(rawMarkdown);
+          const { data, content } = parseFrontmatter(rawMarkdown);
           return {
             ...data,
+            excerpt: Router._parseSummary(content),
             path: filePath,
             slug: filePath.replace(".md", ""),
           };
@@ -63,6 +64,26 @@ export class Router {
       );
     }
     return this._allPosts;
+  }
+  
+  /**
+   * テキストから要約を抽出
+   * @private
+   */
+  static _parseSummary(text) {
+    const blocks = text.trim().split(/\n\s*\n/);
+    const firstContentBlock =
+      blocks.find((block) => !block.trim().startsWith("#")) || "";
+
+    let summary = firstContentBlock
+      .replace(/[#*`>]/g, "")
+      .replace(/!\[[^\]]*\]\([^)]+\)/g, "")
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+      .replace(/\n+/g, " ")
+      .trim();
+
+    const limit = 100;
+    return summary.length > limit ? summary.substring(0, limit) + "..." : summary;
   }
 
   async renderPath(path) {

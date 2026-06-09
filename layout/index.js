@@ -21,7 +21,7 @@ export default layout(
               <li>
                 <time>${formatter.format(post.date)}</time>
                 <a href="${site.base}/${post.slug || ""}">${post.title}</a>
-                <p>${post.description || ""}</p>
+                <p>${post.excerpt || ""}</p>
               </li>
             `,
           )}
