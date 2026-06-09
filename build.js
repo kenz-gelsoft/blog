@@ -1,6 +1,6 @@
 import { renderThunked } from "@lit-labs/ssr"; // LitのTemplateResultを文字列に変換する公式コア
 import { collectResult } from "@lit-labs/ssr/lib/render-result.js";
-import fs from "fs";
+import fs from "node:fs/promises";
 import parseFrontmatter from "gray-matter";
 import path from "path";
 import config from "./config.json" with { type: "json" };
@@ -16,17 +16,17 @@ const BASE_URL = `https://kenz-gelsoft.github.io${globalThis.BASE}`; // Google�
 const IMAGES_SRC_DIR = "./images"; // コピー元の画像ディレクトリ
 
 // ディレクトリのリセット
-if (fs.existsSync(DIST_DIR)) {
-  fs.rmSync(DIST_DIR, { recursive: true, force: true });
+if (await fs.exists(DIST_DIR)) {
+  await fs.rm(DIST_DIR, { recursive: true, force: true });
 }
-fs.mkdirSync(DIST_DIR, { recursive: true });
+await fs.mkdir(DIST_DIR, { recursive: true });
 
 async function generate(relativePath, layout) {
   const resolved = await resolveChain(layout);
   const htmlResult = await collectResult(renderThunked(resolved));
   const outputFilePath = path.join(DIST_DIR, relativePath);
-  fs.mkdirSync(path.dirname(outputFilePath), { recursive: true });
-  fs.writeFileSync(outputFilePath, htmlResult, "utf-8");
+  await fs.mkdir(path.dirname(outputFilePath), { recursive: true });
+  await fs.writeFile(outputFilePath, htmlResult, "utf-8");
 
   console.log(`  📄 出力: ${relativePath}`);
 }
@@ -38,14 +38,13 @@ async function main() {
   console.log("🚀 SSGビルドを開始します...");
 
   // 1. paths.txt から全対象ファイルのパスを取得
-  if (!fs.existsSync(PATHS_FILE)) {
+  if (!(await fs.exists(PATHS_FILE))) {
     console.error(
       `❌ ${PATHS_FILE} が見つかりません。先にファイル一覧を生成してください。`,
     );
     process.exit(1);
   }
-  const allPaths = fs
-    .readFileSync(PATHS_FILE, "utf-8")
+  const allPaths = (await fs.readFile(PATHS_FILE, "utf-8"))
     .split("\n")
     .map((p) => p.trim())
     .filter((p) => p !== "");
@@ -57,15 +56,17 @@ async function main() {
 
   // 2. 全ファイルのメタデータ（Frontmatter）を事前に回収（インデックス・ブログパーツ用）
   console.log("📦 メタデータを収集してデータベースを構築中...");
-  const allPosts = allPaths.map((filePath) => {
-    const rawMarkdown = fs.readFileSync(filePath, "utf-8");
-    const { data } = parseFrontmatter(rawMarkdown);
-    return {
-      ...data,
-      path: filePath,
-      slug: filePath.replace(".md", ""),
-    };
-  });
+  const allPosts = await Promise.all(
+    allPaths.map(async (filePath) => {
+      const rawMarkdown = await fs.readFile(filePath, "utf-8");
+      const { data } = parseFrontmatter(rawMarkdown);
+      return {
+        ...data,
+        path: filePath,
+        slug: filePath.replace(".md", ""),
+      };
+    }),
+  );
 
   const site = Object.assign(Object.create(page), {
     pages: allPosts,
@@ -74,7 +75,7 @@ async function main() {
 
   // 3. 各MarkdownファイルをビルドしてHTMLを書き出す
   for (const filePath of allPaths) {
-    const rawMarkdown = fs.readFileSync(filePath, "utf-8");
+    const rawMarkdown = await fs.readFile(filePath, "utf-8");
     const relativePath = filePath.replace(".md", "/index.html");
     await generate(relativePath, mdPost(rawMarkdown)(page));
   }
@@ -86,14 +87,14 @@ async function main() {
       (post) => `${BASE_URL}/${post.slug === "index" ? "" : post.slug + "/"}`,
     )
     .join("\n");
-  fs.writeFileSync(path.join(DIST_DIR, "sitemap.txt"), sitemapText, "utf-8");
+  await fs.writeFile(path.join(DIST_DIR, "sitemap.txt"), sitemapText, "utf-8");
 
   // 5. 【追加】images/ ディレクトリを dist/images/ に丸ごとコピー
-  if (fs.existsSync(IMAGES_SRC_DIR)) {
+  if (await fs.exists(IMAGES_SRC_DIR)) {
     console.log("🖼️ 画像アセットをコピー中...");
     const imagesDestDir = path.join(DIST_DIR, "images");
 
-    fs.cpSync(IMAGES_SRC_DIR, imagesDestDir, {
+    await fs.cp(IMAGES_SRC_DIR, imagesDestDir, {
       recursive: true, // サブディレクトリも丸ごと再帰的にコピー
       force: true, // 同名ファイルがあっても上書き
     });
