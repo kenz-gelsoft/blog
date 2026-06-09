@@ -1,4 +1,6 @@
 import parseFrontmatter from "gray-matter";
+import index from "../layout/index.js";
+import mdPost from "../layout/mdPost.js";
 
 export function layout(data, layoutFunc) {
   return (page) => {
@@ -41,4 +43,47 @@ export async function allPathsAndPosts(pathsFile, readFile) {
   );
 
   return { allPaths, allPosts };
+}
+
+export class Router {
+  _config = {};
+  _readFile = null;
+  _render = null;
+
+  constructor({ config, readFile, render }) {
+    this._config = config;
+    this._readFile = readFile;
+    this._render = render;
+  }
+
+  // キャッシュ
+  _allPosts = null;
+  async allPosts() {
+    if (this._allPosts == null) {
+      const { allPosts } = await allPathsAndPosts("paths.txt", this._readFile);
+      this._allPosts = allPosts;
+    }
+    return this._allPosts;
+  }
+
+  async renderPath(path, renderInternal) {
+    const page = {
+      ...this._config,
+      base: globalThis.BASE,
+    };
+
+    if (path !== "index") {
+      const postLayout = await mdPost(`${path}.md`, this._readFile);
+      const finalHtml = await resolveChain(postLayout(page));
+      this._render(finalHtml);
+    } else {
+      const site = Object.assign(Object.create(page), {
+        // 一覧ページを表示するときだけ、全ファイルの「Frontmatter（メタデータ）だけ」を非同期で回収する
+        pages: await this.allPosts(),
+      });
+
+      const finalHtml = await resolveChain(index(site));
+      this._render(finalHtml);
+    }
+  }
 }

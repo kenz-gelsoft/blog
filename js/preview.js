@@ -1,8 +1,6 @@
 import { render } from "lit";
 import config from "../config.json" with { type: "json" };
-import index from "../layout/index.js";
-import mdPost from "../layout/mdPost.js";
-import { allPathsAndPosts, resolveChain } from "./engine.js";
+import { Router } from "./engine.js";
 
 globalThis.BASE = "";
 
@@ -13,51 +11,11 @@ async function renderPage() {
   const currentPath = pathName === "" ? "index" : pathName;
 
   const router = new Router({
+    config,
     readFile: async (path) => (await fetch(`/${path}`)).text(),
     render: (result) => render(result, document.body),
   });
   await router.renderPath(currentPath);
-}
-
-class Router {
-  _readFile = null;
-  _render = null;
-
-  constructor({ readFile, render }) {
-    this._readFile = readFile;
-    this._render = render;
-  }
-
-  // キャッシュ
-  _allPosts = null;
-  async allPosts() {
-    if (this._allPosts == null) {
-      const { allPosts } = await allPathsAndPosts("paths.txt", this._readFile);
-      this._allPosts = allPosts;
-    }
-    return this._allPosts;
-  }
-
-  async renderPath(path, renderInternal) {
-    const page = {
-      ...config,
-      base: globalThis.BASE,
-    };
-
-    if (path !== "index") {
-      const postLayout = await mdPost(`${path}.md`, this._readFile);
-      const finalHtml = await resolveChain(postLayout(page));
-      this._render(finalHtml);
-    } else {
-      const site = Object.assign(Object.create(page), {
-        // 一覧ページを表示するときだけ、全ファイルの「Frontmatter（メタデータ）だけ」を非同期で回収する
-        pages: await this.allPosts(),
-      });
-
-      const finalHtml = await resolveChain(index(site));
-      this._render(finalHtml);
-    }
-  }
 }
 
 // 独自のナビゲーション関数
