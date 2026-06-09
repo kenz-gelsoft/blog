@@ -41,7 +41,7 @@ async function main() {
       const relativePath =
         filePath === "index"
           ? "index.html"
-          : `${filePath}/index.html`;
+          : filePath.replace(".md", "/index.html")
       const htmlResult = await collectResult(renderThunked(resolved));
       const outputFilePath = path.join(DIST_DIR, relativePath);
       await fs.mkdir(path.dirname(outputFilePath), { recursive: true });
