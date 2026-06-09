@@ -53,8 +53,8 @@ async function main() {
 
   // 2. 全ファイルのメタデータ（Frontmatter）を事前に回収（インデックス・ブログパーツ用）
   console.log("📦 メタデータを収集してデータベースを構築中...");
+  const allPaths = await router.allPaths();
   const allPosts = await router.allPosts();
-  const allPaths = allPosts.map((p) => p.path);
 
   // 3. 各MarkdownファイルをビルドしてHTMLを書き出す
   await router.renderPath("index");
