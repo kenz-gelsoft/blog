@@ -18,19 +18,19 @@ export default layout(
         <ul class="post-list">
           ${posts.map(
             (post) => html`
-              <li class="post-item">
-                <div class="post-desc">
-                  <h2>
+              <li>
+                <div class="post-item">
+                  <h2 class="post-desc">
                     <time>${formatter.format(post.date)}</time>
                     <a href="${site.base}/${post.slug || ""}">${post.title}</a>
-                  </h2>
-                </div>
                 ${post.image &&
                 html`<a
                   class="post-image"
                   href="${site.base}/${post.slug || ""}"
                   ><img src="${site.base}/${post.image}"
                 /></a>`}
+                  </h2>
+                </div>
                 <p>${post.excerpt || ""}</p>
               </li>
             `,
