@@ -14,6 +14,18 @@ export default layout(
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>${page.title}</title>
         <style type="text/css">
+          html,
+          body {
+            font-family: serif;
+          }
+          h1,
+          h2,
+          h3,
+          h4,
+          h5,
+          h6 {
+            font-family: sans-serif;
+          }
           img {
             max-width: 100%;
             max-height: 66vh;
