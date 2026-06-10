@@ -48,7 +48,7 @@ export default layout(
           .post-item {
             position: relative;
             /*border: 1px solid black;*/
-            width: 66%;
+            /*width: 66%;*/
           }
           .post-desc {
             padding: 0 1rem;
