@@ -51,7 +51,8 @@ export default layout(
             /*width: 66%;*/
           }
           .post-desc {
-            padding: 0 1rem;
+            margin: 0;
+            padding: 1rem;
             background-color: rgba(255, 255, 255, 0.75);
             backdrop-filter: blur(10px);
           }
