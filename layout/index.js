@@ -23,13 +23,13 @@ export default layout(
                   <h2 class="post-desc">
                     <time>${formatter.format(post.date)}</time>
                     <a href="${site.base}/${post.slug || ""}">${post.title}</a>
+                  </h2>
                 ${post.image &&
                 html`<a
                   class="post-image"
                   href="${site.base}/${post.slug || ""}"
                   ><img src="${site.base}/${post.image}"
                 /></a>`}
-                  </h2>
                 </div>
                 <p>${post.excerpt || ""}</p>
               </li>
