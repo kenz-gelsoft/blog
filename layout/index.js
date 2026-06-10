@@ -19,7 +19,7 @@ export default layout(
           ${posts.map(
             (post) => html`
               <li class="post-item">
-                <div class="${"post-desc"}">
+                <div class="post-desc">
                   <h2>
                     <time>${formatter.format(post.date)}</time>
                     <a href="${site.base}/${post.slug || ""}">${post.title}</a>
@@ -30,7 +30,7 @@ export default layout(
                 html`<a
                   class="post-image"
                   href="${site.base}/${post.slug || ""}"
-                  ><img src="${post.image}"
+                  ><img src="${site.base}/${post.image}"
                 /></a>`}
               </li>
             `,
