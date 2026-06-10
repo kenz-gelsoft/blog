@@ -30,11 +30,11 @@ export default layout(
           .post-list,
           .post-item {
             display: flex;
+            flex-direction: column;
             margin: 0;
             padding: 0;
           }
           .post-list {
-            flex-direction: column;
             gap: 1rem;
             list-style-type: none;
           }
