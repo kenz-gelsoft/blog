@@ -26,6 +26,40 @@ export default layout(
           h6 {
             font-family: sans-serif;
           }
+
+          .post-list,
+          .post-item {
+            display: flex;
+            margin: 0;
+            padding: 0;
+          }
+          .post-list {
+            flex-direction: column;
+            gap: 1rem;
+            list-style-type: none;
+          }
+          .post-list img {
+            /*max-width: 100vw;*/
+            width: 100vw;
+          }
+          .post-image {
+            display: flex;
+          }
+          .post-item {
+            position: relative;
+            /*border: 1px solid black;*/
+            width: 66%;
+          }
+          .post-desc {
+            padding: 0 1rem;
+            background-color: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(10px);
+          }
+          .post-item:has(img) .post-desc {
+            position: absolute;
+            bottom: 0;
+          }
+
           img {
             max-width: 100%;
             max-height: 66vh;
