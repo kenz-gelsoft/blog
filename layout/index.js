@@ -24,7 +24,6 @@ export default layout(
                     <time>${formatter.format(post.date)}</time>
                     <a href="${site.base}/${post.slug || ""}">${post.title}</a>
                   </h2>
-                  <p>${post.excerpt || ""}</p>
                 </div>
                 ${post.image &&
                 html`<a
@@ -32,6 +31,7 @@ export default layout(
                   href="${site.base}/${post.slug || ""}"
                   ><img src="${site.base}/${post.image}"
                 /></a>`}
+                <p>${post.excerpt || ""}</p>
               </li>
             `,
           )}
