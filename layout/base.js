@@ -17,7 +17,7 @@ export default layout(
           html,
           body {
             font-family: serif;
-            margin: 0;
+            margin: 0 0 3rem 0;
             padding: 0;
           }
           body {
@@ -40,29 +40,46 @@ export default layout(
             padding: 0;
           }
           .post-list {
-            gap: 1rem;
+            gap: 2rem;
             list-style-type: none;
           }
           .post-list img {
-            /*max-width: 100vw;*/
-            width: 100vw;
+            max-height: 100%;
+          }
+          .post-list li p {
+            margin: 0;
+            padding: 0.5rem 0;
           }
           .post-image {
             display: flex;
           }
           .post-item {
             position: relative;
-            /*border: 1px solid black;*/
-            /*width: 66%;*/
+            margin: 0 -1rem;
+          }
+          .post-desc h2 {
+            margin: 0;
+            padding: 0;
           }
           .post-desc {
             margin: 0;
+            padding: 0.5rem 1rem;
             background-color: rgba(255, 255, 255, 0.75);
             backdrop-filter: blur(10px);
+          }
+          .post-item time {
+            vertical-align: baseline;
+            float: right;
+            font-family: serif;
+            font-size: 1rem;
+            margin-top: 0.75rem;
+            right: 0;
           }
           .post-item:has(img) .post-desc {
             position: absolute;
             bottom: 0;
+            left: 0;
+            right: 0;
           }
 
           img {
@@ -74,6 +91,7 @@ export default layout(
             color: white;
             margin: 0 -1rem;
             padding: 0.75em 1rem;
+            overflow: scroll;
           }
 
           table {
