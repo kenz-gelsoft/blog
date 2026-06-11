@@ -17,12 +17,13 @@ export default layout(
           html,
           body {
             font-family: serif;
-            margin: 0 0 3rem 0;
+            margin: 0;
             padding: 0;
           }
           body {
-            padding: 0 1rem;
+            padding: 0 1rem 3rem 1rem;
           }
+
           h1,
           h2,
           h3,
