@@ -17,6 +17,11 @@ export default layout(
           html,
           body {
             font-family: serif;
+            margin: 0;
+            padding: 0;
+          }
+          body {
+            padding: 0 1rem;
           }
           h1,
           h2,
@@ -67,7 +72,8 @@ export default layout(
           pre:has(code) {
             background-color: black;
             color: white;
-            padding: 0.75em;
+            margin: 0 -1rem;
+            padding: 0.75em 1rem;
           }
 
           table {
