@@ -45,6 +45,7 @@ export default layout(
             list-style-type: none;
           }
           .post-list img {
+            aspect-ratio: 2/1 auto;
             max-height: 100%;
           }
           .post-list li p {
