@@ -148,11 +148,16 @@ export default layout(
           }
 
           blockquote {
-            margin: 1.5rem 0;
-            padding-left: 1rem;
+            background-color: rgba(0, 0, 0, 0.02);
+            margin: 0 -1rem 0 0;
+            padding: 0.5rem 1rem;
             border-left: 4px solid lightgray;
             color: gray;
             font-style: italic;
+          }
+          blockquote cite {
+            display: block;
+            text-align: right;
           }
         </style>
       </head>
