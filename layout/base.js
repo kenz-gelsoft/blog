@@ -20,8 +20,43 @@ export default layout(
             margin: 0;
             padding: 0;
           }
-          body {
-            padding: 0 1rem 3rem 1rem;
+
+          .container {
+            display: flex;
+            flex-direction: column;
+            margin: 0 auto;
+            max-width: 1000px;
+          }
+
+          main {
+            flex: 1;
+            padding: 1rem;
+            padding-top: 0;
+            box-shadow: 0 0 4px lightgray;
+          }
+          aside {
+            flex: 0;
+            min-width: calc(1000px - 768px);
+            padding: 1.5rem 1rem 3rem 1rem;
+            position: relative;
+          }
+
+          @media (min-width: 768px) {
+            main {
+              padding-bottom: 3rem;
+            }
+            .container {
+              flex-direction: row;
+            }
+            .side-bar {
+              position: fixed;
+              width: calc(1000px - 768px);
+            }
+          }
+
+          .site-title {
+            font-weight: bold;
+            font-family: sans;
           }
 
           h1,
@@ -122,11 +157,20 @@ export default layout(
         </style>
       </head>
       <body>
-        ${page.content}
-        <hr />
-        <address>
-          <a href="${page.authorLink}">&copy; ${page.author}</a>
-        </address>
+        <div class="container">
+          <main>${page.content}</main>
+          <aside>
+            <div class="side-bar">
+              <a href="${page.base}/" class="site-title"
+                >そのたぐいのこと - on Other GUIs</a
+              >
+              <hr />
+              <address>
+                <a href="${page.authorLink}">&copy; ${page.author}</a>
+              </address>
+            </div>
+          </aside>
+        </div>
       </body>
     </html>
   `,
