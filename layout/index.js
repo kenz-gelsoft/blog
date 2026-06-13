@@ -13,7 +13,9 @@ export default layout(
 
     return html`
       <section class="archive">
-        <h1>${site.title}</h1>
+        <h1>
+          ${site.sitetitle} <span class="subtitle">${site.subtitle}</span>
+        </h1>
 
         <ul class="post-list">
           ${posts.map(

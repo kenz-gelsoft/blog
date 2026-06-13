@@ -12,7 +12,10 @@ export default layout(
       <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>${page.title} | ${page.sitetitle}</title>
+        <title>
+          ${page.title && `${page.title} | `} ${page.sitetitle} -
+          ${page.subtitle}
+        </title>
         <style type="text/css">
           html,
           body {
@@ -57,6 +60,12 @@ export default layout(
           .site-title {
             font-weight: bold;
             font-family: sans;
+          }
+          .subtitle {
+            display: block;
+            font-family: serif;
+            font-size: 16px;
+            font-weight: normal;
           }
 
           h1,
@@ -167,7 +176,11 @@ export default layout(
           <main>${page.content}</main>
           <aside>
             <div class="side-bar">
-              <a href="${page.base}/" class="site-title">${page.sitetitle}</a>
+              <a href="${page.base}/" class="site-title"
+                >${page.sitetitle}<span class="subtitle"
+                  >${page.subtitle}</span
+                ></a
+              >
               <hr />
               <address>
                 <a href="${page.authorLink}">&copy; ${page.author}</a>
