@@ -80,7 +80,8 @@ export default layout(
             list-style-type: none;
           }
           .post-list img {
-            aspect-ratio: 2/1 auto;
+            aspect-ratio: 16/9 auto;
+            background-color: rgba(0, 0, 0, 0.02);
             max-height: 100%;
           }
           .post-list li p {
