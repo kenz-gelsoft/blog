@@ -1,5 +1,6 @@
 import { html } from "@lit-labs/ssr";
 import { layout } from "../js/engine.js";
+import { postDate, tags } from "./index.js";
 
 // 第一引数にオブジェクトリテラルを配置して、11tyのFrontmatterを再現
 export default layout(
@@ -11,6 +12,7 @@ export default layout(
     <article class="${page.sidebar ? "has-sidebar" : ""}">
       <header>
         <h1>${page.title}</h1>
+        ${postDate(page)}${tags(page)}
       </header>
       <div class="body">${page.content}</div>
       <p><a href="${page.base}/index.html">一覧に戻る</a></p>

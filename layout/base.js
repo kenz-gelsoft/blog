@@ -114,6 +114,13 @@ export default layout(
             background-color: rgba(255, 255, 255, 0.75);
             backdrop-filter: blur(10px);
           }
+          article time {
+            display: block;
+            text-align: right;
+            font-family: serif;
+            font-size: 1rem;
+            font-weight: bold;
+          }
           .post-item time {
             vertical-align: baseline;
             float: right;
@@ -127,6 +134,24 @@ export default layout(
             bottom: 0;
             left: 0;
             right: 0;
+          }
+
+          .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: flex-end;
+            padding: 0;
+          }
+          .tags li {
+            background-color: #333399;
+            border-radius: 3px;
+            color: white;
+            font-family: sans-serif;
+            font-size: 0.85rem;
+            font-weight: bold;
+            list-style-type: none;
+            padding: 0.25rem 0.5rem;
           }
 
           img {
