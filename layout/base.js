@@ -136,13 +136,17 @@ export default layout(
             right: 0;
           }
 
+          .tag-list,
           .tags {
             display: flex;
             flex-wrap: wrap;
             gap: 0.5rem;
-            justify-content: flex-end;
             padding: 0;
           }
+          .tags {
+            justify-content: flex-end;
+          }
+          .tag-list li,
           .tags li {
             background-color: #333399;
             border-radius: 3px;

@@ -1,6 +1,7 @@
 import parseFrontmatter from "gray-matter";
 import index from "../layout/index.js";
 import mdPost from "../layout/mdPost.js";
+import tags from "../layout/tags.js";
 
 export function layout(data, layoutFunc) {
   return (page) => {
@@ -65,7 +66,17 @@ export class Router {
     }
     return this._allPosts;
   }
-  
+
+  _allTags = null;
+  async allTags() {
+    if (this._allTags == null) {
+      this._allTags = new Set(
+        (await this.allPosts()).flatMap((post) => post.tags),
+      );
+    }
+    return this._allTags;
+  }
+
   /**
    * テキストから要約を抽出
    * @private
@@ -83,7 +94,9 @@ export class Router {
       .trim();
 
     const limit = 100;
-    return summary.length > limit ? summary.substring(0, limit) + "..." : summary;
+    return summary.length > limit
+      ? summary.substring(0, limit) + "..."
+      : summary;
   }
 
   async renderPath(path) {
@@ -92,7 +105,16 @@ export class Router {
       base: globalThis.BASE,
     };
 
-    if (path !== "index") {
+    if (path.startsWith("tags.md")) {
+      const site = Object.assign(Object.create(page), {
+        // 一覧ページを表示するときだけ、全ファイルの「Frontmatter（メタデータ）だけ」を非同期で回収する
+        pages: await this.allPosts(),
+        tags: await this.allTags(),
+      });
+
+      const finalHtml = await resolveChain(tags(site));
+      this._render(finalHtml, path);
+    } else if (path !== "index") {
       const postLayout = await mdPost(path, this._readFile);
       const finalHtml = await resolveChain(postLayout(page));
       this._render(finalHtml, path);
