@@ -41,7 +41,7 @@ async function main() {
       const relativePath =
         filePath === "index"
           ? "index.html"
-          : filePath.replace(".md", "/index.html")
+          : filePath.replace(".md", "/index.html");
       const htmlResult = await collectResult(renderThunked(resolved));
       const outputFilePath = path.join(DIST_DIR, relativePath);
       await fs.mkdir(path.dirname(outputFilePath), { recursive: true });
@@ -62,7 +62,11 @@ async function main() {
     await router.renderPath(filePath);
   }
 
-  // 4. Googlebot用の sitemap.txt を自動出力
+  // 4. タグ一覧ページ
+  // FIXME: .md なしで動くようにする
+  await router.renderPath("tags.md");
+
+  // 5. Googlebot用の sitemap.txt を自動出力
   console.log("🤖 Googlebot用 sitemap.txt を生成中...");
   const sitemapText = allPosts
     .map(
@@ -71,7 +75,7 @@ async function main() {
     .join("\n");
   await fs.writeFile(path.join(DIST_DIR, "sitemap.txt"), sitemapText, "utf-8");
 
-  // 5. 【追加】images/ ディレクトリを dist/images/ に丸ごとコピー
+  // 6. 【追加】images/ ディレクトリを dist/images/ に丸ごとコピー
   if (await fs.exists(IMAGES_SRC_DIR)) {
     console.log("🖼️ 画像アセットをコピー中...");
     const imagesDestDir = path.join(DIST_DIR, "images");
