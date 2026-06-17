@@ -71,7 +71,9 @@ export class Router {
   async allTags() {
     if (this._allTags == null) {
       this._allTags = new Set(
-        (await this.allPosts()).flatMap((post) => post.tags),
+        (await this.allPosts())
+          .filter((p) => p.published)
+          .flatMap((p) => p.tags),
       );
     }
     return this._allTags;
@@ -105,7 +107,18 @@ export class Router {
       base: globalThis.BASE,
     };
 
-    if (path.startsWith("tags.md")) {
+    if (path.startsWith("tags/") && path.endsWith(".md")) {
+      const selectedTag = path.split("/").at(-1).slice(0, -".md".length);
+      const site = Object.assign(Object.create(page), {
+        // 一覧ページを表示するときだけ、全ファイルの「Frontmatter（メタデータ）だけ」を非同期で回収する
+        pages: await this.allPosts(),
+        tags: await this.allTags(),
+        selectedTag,
+      });
+
+      const finalHtml = await resolveChain(tags(site));
+      this._render(finalHtml, path);
+    } else if (path.startsWith("tags.md")) {
       const site = Object.assign(Object.create(page), {
         // 一覧ページを表示するときだけ、全ファイルの「Frontmatter（メタデータ）だけ」を非同期で回収する
         pages: await this.allPosts(),

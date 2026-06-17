@@ -157,6 +157,9 @@ export default layout(
             list-style-type: none;
             padding: 0.25rem 0.5rem;
           }
+          .tag-list a {
+            color: white;
+          }
 
           img {
             max-width: 100%;
