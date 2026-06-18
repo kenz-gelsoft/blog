@@ -9,7 +9,8 @@ export function tagList(site) {
     .sort((a, b) => b < a);
   return html`<ul class="tag-list">
     ${tags.map(
-      (tag) => html`<a href="${site.base}/tags/${tag}"/><li>#${tag}</li></a>`,
+      (tag) =>
+        html`<a href="${site.base}/tags/${tag}" class="${site.selectedTag === tag && "selected"}"/><li>#${tag}</li></a>`,
     )}
   </ul>`;
 }

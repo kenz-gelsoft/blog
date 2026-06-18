@@ -161,6 +161,11 @@ export default layout(
           .tags a {
             color: white;
           }
+          .tag-list .selected li {
+            color: #333399;
+            background-color: white;
+            border: 1px solid #333399;
+          }
 
           img {
             max-width: 100%;
