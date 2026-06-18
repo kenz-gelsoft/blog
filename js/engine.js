@@ -60,6 +60,7 @@ export class Router {
             excerpt: Router._parseSummary(content),
             path: filePath,
             slug: filePath.replace(".md", ""),
+            base: globalThis.BASE,
           };
         }),
       );
