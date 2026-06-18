@@ -221,6 +221,11 @@ export default layout(
               >
               <ul>
                 <li><a href="${page.base}/tags">タグ一覧</a></li>
+                <li>
+                  <a href="${page.base}/posts/2026-05-05-about"
+                    >このブログについて</a
+                  >
+                </li>
               </ul>
               <hr />
               <address>
