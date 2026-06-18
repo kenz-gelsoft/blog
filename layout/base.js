@@ -157,7 +157,8 @@ export default layout(
             list-style-type: none;
             padding: 0.25rem 0.5rem;
           }
-          .tag-list a {
+          .tag-list a,
+          .tags a {
             color: white;
           }
 
@@ -213,6 +214,9 @@ export default layout(
                   >${page.subtitle}</span
                 ></a
               >
+              <ul>
+                <li><a href="${page.base}/tags">タグ一覧</a></li>
+              </ul>
               <hr />
               <address>
                 <a href="${page.authorLink}">&copy; ${page.author}</a>

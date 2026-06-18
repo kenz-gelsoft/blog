@@ -8,7 +8,9 @@ export function postDate(post) {
 
 export function tags(post) {
   return html`<ul class="tags">
-    ${post.tags.map((tag) => html`<li>#${tag}</li>`)}
+    ${post.tags.map(
+      (tag) => html`<li><a href="${post.base}/tags/${tag}">#${tag}</a></li>`,
+    )}
   </ul>`;
 }
 
