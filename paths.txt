@@ -1,6 +1,7 @@
 posts/hello.md
 posts/2026-05-09-cosmic-ja-status.md
 posts/2026-05-17-pop-os-ime-setting.md
+posts/2026-05-05-about.md
 posts/list-test.md
 posts/2026-05-16-all-cosmic-apps-support-ime-soon.md
 posts/2026-05-17-fedora-cosmic-ime-setting.md
