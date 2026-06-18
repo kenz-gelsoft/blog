@@ -108,7 +108,9 @@ export class Router {
     };
 
     if (path.startsWith("tags/") && path.endsWith(".md")) {
-      const selectedTag = path.split("/").at(-1).slice(0, -".md".length);
+      const selectedTag = decodeURIComponent(
+        path.split("/").at(-1).slice(0, -".md".length),
+      );
       const site = Object.assign(Object.create(page), {
         // 一覧ページを表示するときだけ、全ファイルの「Frontmatter（メタデータ）だけ」を非同期で回収する
         pages: await this.allPosts(),

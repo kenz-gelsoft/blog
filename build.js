@@ -55,6 +55,7 @@ async function main() {
   console.log("📦 メタデータを収集してデータベースを構築中...");
   const allPaths = await router.allPaths();
   const allPosts = await router.allPosts();
+  const allTags = await router.allTags();
 
   // 3. 各MarkdownファイルをビルドしてHTMLを書き出す
   await router.renderPath("index");
@@ -65,6 +66,9 @@ async function main() {
   // 4. タグ一覧ページ
   // FIXME: .md なしで動くようにする
   await router.renderPath("tags.md");
+  for (const tag of allTags) {
+    await router.renderPath(`tags/${tag}.md`);
+  }
 
   // 5. Googlebot用の sitemap.txt を自動出力
   console.log("🤖 Googlebot用 sitemap.txt を生成中...");
