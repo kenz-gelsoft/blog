@@ -73,7 +73,7 @@ export class Router {
     if (this._allTags == null) {
       this._allTags = new Set(
         (await this.allPosts())
-          .filter((p) => p.published)
+          .filter((p) => p.published !== false)
           .flatMap((p) => p.tags),
       );
     }
