@@ -3,7 +3,7 @@ import { layout } from "../js/engine.js";
 import { postDate } from "./index.js";
 
 export function tagList(site) {
-  const tags = site.tags
+  const tags = site.allTags
     .values()
     .toArray()
     .sort((a, b) => b < a);

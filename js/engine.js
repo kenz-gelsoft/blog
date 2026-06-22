@@ -106,6 +106,8 @@ export class Router {
     const page = {
       ...this._config,
       base: globalThis.BASE,
+      pages: await this.allPosts(),
+      allTags: await this.allTags(),
     };
 
     if (path.startsWith("tags/") && path.endsWith(".md")) {
@@ -113,34 +115,20 @@ export class Router {
         path.split("/").at(-1).slice(0, -".md".length),
       );
       const site = Object.assign(Object.create(page), {
-        // 一覧ページを表示するときだけ、全ファイルの「Frontmatter（メタデータ）だけ」を非同期で回収する
-        pages: await this.allPosts(),
-        tags: await this.allTags(),
         selectedTag,
       });
 
       const finalHtml = await resolveChain(tags(site));
       this._render(finalHtml, path);
     } else if (path.startsWith("tags.md")) {
-      const site = Object.assign(Object.create(page), {
-        // 一覧ページを表示するときだけ、全ファイルの「Frontmatter（メタデータ）だけ」を非同期で回収する
-        pages: await this.allPosts(),
-        tags: await this.allTags(),
-      });
-
-      const finalHtml = await resolveChain(tags(site));
+      const finalHtml = await resolveChain(tags(page));
       this._render(finalHtml, path);
     } else if (path !== "index") {
       const postLayout = await mdPost(path, this._readFile);
       const finalHtml = await resolveChain(postLayout(page));
       this._render(finalHtml, path);
     } else {
-      const site = Object.assign(Object.create(page), {
-        // 一覧ページを表示するときだけ、全ファイルの「Frontmatter（メタデータ）だけ」を非同期で回収する
-        pages: await this.allPosts(),
-      });
-
-      const finalHtml = await resolveChain(index(site));
+      const finalHtml = await resolveChain(index(page));
       this._render(finalHtml, path);
     }
   }

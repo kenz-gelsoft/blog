@@ -1,6 +1,23 @@
 import { html } from "@lit-labs/ssr";
 import { layout } from "../js/engine.js";
 
+function tagsWidget(site) {
+  // 効率はよくないが、事前レンダリングするため構わない。
+  const count = (tag) => site.pages.filter((p) => p.tags.includes(tag)).length;
+  const sortedTags = site.allTags
+    .values()
+    .toArray()
+    .sort((a, b) => count(b) - count(a));
+  return html`<ul>
+    ${sortedTags.map(
+      (tag) =>
+        html`<a href="${site.base}/tags/${tag}"
+          ><li>${tag}(${count(tag)})</li></a
+        >`,
+    )}
+  </ul>`;
+}
+
 export default layout(
   {
     // ルートレイアウトでは layout: を指定しない
@@ -219,14 +236,15 @@ export default layout(
                   >${page.subtitle}</span
                 ></a
               >
-              <ul>
-                <li><a href="${page.base}/tags">タグ一覧</a></li>
-                <li>
-                  <a href="${page.base}/posts/2026-05-05-about"
-                    >このブログについて</a
-                  >
-                </li>
-              </ul>
+              <p>
+                <a href="${page.base}/posts/2026-05-05-about"
+                  >このブログについて</a
+                >
+              </p>
+              <p>
+                <a href="${page.base}/tags">タグ一覧</a>
+                ${tagsWidget(page)}
+              </p>
               <hr />
               <address>
                 <a href="${page.authorLink}">&copy; ${page.author}</a>
