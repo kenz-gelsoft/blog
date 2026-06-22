@@ -1,6 +1,20 @@
 import { html } from "@lit-labs/ssr";
 import { layout } from "../js/engine.js";
 
+function latestPostsWidget(site) {
+  const latestPosts = site.pages
+    .sort((a, b) => b.date - a.date)
+    .filter((p) => p.published !== false)
+    .slice(0, 3);
+  return html`<ul>
+    ${latestPosts.map(
+      (post) => html`
+        <li><a href="${site.base}/${post.slug || ""}">${post.title}</a></li>
+      `,
+    )}
+  </ul>`;
+}
+
 function tagsWidget(site) {
   // 効率はよくないが、事前レンダリングするため構わない。
   const count = (tag) => site.pages.filter((p) => p.tags.includes(tag)).length;
@@ -11,9 +25,9 @@ function tagsWidget(site) {
   return html`<ul>
     ${sortedTags.map(
       (tag) =>
-        html`<a href="${site.base}/tags/${tag}"
-          ><li>${tag}(${count(tag)})</li></a
-        >`,
+        html`<li>
+          <a href="${site.base}/tags/${tag}">${tag}(${count(tag)})</a>
+        </li>`,
     )}
   </ul>`;
 }
@@ -224,6 +238,18 @@ export default layout(
             display: block;
             text-align: right;
           }
+
+          .side-bar {
+            & ul {
+              margin: 0;
+              margin-left: 1rem;
+              padding: 0;
+            }
+            & li {
+              list-style-type: "\\00BB";
+              padding-left: 0.5rem;
+            }
+          }
         </style>
       </head>
       <body>
@@ -231,19 +257,23 @@ export default layout(
           <main>${page.content}</main>
           <aside>
             <div class="side-bar">
-              <a href="${page.base}/" class="site-title"
-                >${page.sitetitle}<span class="subtitle"
-                  >${page.subtitle}</span
-                ></a
-              >
+              <h3 class="site-title">
+                ${page.sitetitle}<span class="subtitle">${page.subtitle}</span>
+              </h3>
               <p>
-                <a href="${page.base}/posts/2026-05-05-about"
-                  >このブログについて</a
-                >
+                <strong><a href="${page.base}/">Latest</a></strong>
+                ${latestPostsWidget(page)}
               </p>
               <p>
-                <a href="${page.base}/tags">タグ一覧</a>
+                <strong><a href="${page.base}/tags">Tags</a></strong>
                 ${tagsWidget(page)}
+              </p>
+              <p>
+                <strong
+                  ><a href="${page.base}/posts/2026-05-05-about"
+                    >About</a
+                  ></strong
+                >
               </p>
               <hr />
               <address>
