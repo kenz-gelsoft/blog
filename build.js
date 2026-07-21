@@ -18,7 +18,7 @@ if (await fs.exists(DIST_DIR)) {
 }
 await fs.mkdir(DIST_DIR, { recursive: true });
 
-await fs.cp("google4a4777d2dfdf3b01.html", `${DIST_DIR}/`);
+await fs.cp("google4a4777d2dfdf3b01.html", `${DIST_DIR}/google4a4777d2dfdf3b01.html`);
 
 const readFile = async (path) => fs.readFile(path, "utf-8");
 
